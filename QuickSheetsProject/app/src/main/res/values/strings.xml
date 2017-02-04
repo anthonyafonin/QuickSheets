@@ -3,9 +3,8 @@
 
     <!-- Strings related to login -->
     <string name="copyright">© 2017 ANTHONY AFONIN</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="prompt_rePass">Confirm Password</string>
+    <string name="prompt_email">Email Address</string>
+    <string name="prompt_reEmail">Confirm Email</string>
     <string name="prompt_first">First Name</string>
     <string name="prompt_middle">Middle Name (Optional)</string>
     <string name="prompt_last">Last Name</string>
@@ -14,8 +13,6 @@
     <string name="action_register">Register</string>
     <string name="action_returnLogin">Return to Login</string>
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="title_activity_home">QuickSheets</string>
 

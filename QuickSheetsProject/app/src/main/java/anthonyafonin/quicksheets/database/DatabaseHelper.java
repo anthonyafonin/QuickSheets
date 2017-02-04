@@ -119,6 +119,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Add Account
     public void addAccount(Account account){
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Adding Account attribute values

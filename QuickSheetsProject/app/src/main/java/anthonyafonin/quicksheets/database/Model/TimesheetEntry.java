@@ -2,7 +2,7 @@ package anthonyafonin.quicksheets.database.Model;
 
 public class TimesheetEntry {
 
-    private int id;
+    private long id;
     private String jobType;
     private String customer;
     private String description;
@@ -10,7 +10,7 @@ public class TimesheetEntry {
     private String entryDate;
 
     // Constructor
-    public TimesheetEntry(int id, String jobType, String customer,
+    public TimesheetEntry(long id, String jobType, String customer,
                     String description, double entryHours, String entryDate) {
         this.id = id;
         this.jobType = jobType;
@@ -21,7 +21,7 @@ public class TimesheetEntry {
     }
 
     // Setters
-    public void setId(int id){
+    public void setId(long id){
         this.id = id;
     }
 

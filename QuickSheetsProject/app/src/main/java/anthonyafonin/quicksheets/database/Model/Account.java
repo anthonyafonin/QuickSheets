@@ -2,7 +2,7 @@ package anthonyafonin.quicksheets.database.Model;
 
 public class Account {
 
-    private int id;
+    private long id;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -10,9 +10,8 @@ public class Account {
     private String email;
 
     // Constructor
-    public Account(int id, String firstName, String middleName,
-                    String lastName, String phoneNumber, String email) {
-        this.id = id;
+    public Account(String firstName, String middleName, String lastName,
+                   String phoneNumber, String email) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -21,7 +20,7 @@ public class Account {
     }
 
     // Setters
-    public void setId(int id){
+    public void setId(long id){
         this.id = id;
     }
 

@@ -1,14 +1,15 @@
 package anthonyafonin.quicksheets.database.Model;
 
 public class Timesheet {
-    private int id;
+
+    private long id;
     private String sheetTitle;
     private String startDate;
     private String endDate;
     private int yearDate;
 
     // Constructor
-    public Timesheet(int id, String sheetTitle, String startDate,
+    public Timesheet(long id, String sheetTitle, String startDate,
                      String endDate, int yearDate) {
         this.id = id;
         this.sheetTitle = sheetTitle;
@@ -18,7 +19,7 @@ public class Timesheet {
     }
 
     // Setters
-    public void setId(int id){
+    public void setId(long id){
         this.id = id;
     }
 
