@@ -1,15 +1,23 @@
 package anthonyafonin.quicksheets;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import anthonyafonin.timecheck.R;
+import anthonyafonin.quicksheets.database.DatabaseHelper;
+import anthonyafonin.quicksheets.R;
 
 public class MainActivity extends Activity {
+
+    DatabaseHelper db;
+    SQLiteDatabase sqldb;
+    Context context;
 
     int timeout = 3000; //Timer for splashscreen, 3 seconds.
 
@@ -19,10 +27,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().getAttributes().format = android.graphics.PixelFormat.RGBA_8888;
         setContentView(R.layout.activity_main);
+
+        DatabaseHelper db = new DatabaseHelper(context);
+        db.onCreate(sqldb);
         run();
     }
 
-    //Times out after 3 seconds.
+    // Redirects to LoginActivity after 3 seconds.
     public void run(){
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
