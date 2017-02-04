@@ -1,4 +1,4 @@
-package anthonyafonin.quicksheets.database;
+package anthonyafonin.quicksheets.database.Model;
 
 public class TimesheetEntry {
 

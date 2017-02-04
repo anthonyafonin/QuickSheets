@@ -1,6 +1,6 @@
-package anthonyafonin.quicksheets.database;
+package anthonyafonin.quicksheets.database.Model;
 
-public class Accounts {
+public class Account {
 
     private int id;
     private String firstName;
@@ -10,7 +10,7 @@ public class Accounts {
     private String email;
 
     // Constructor
-    public Accounts(int id, String firstName, String middleName,
+    public Account(int id, String firstName, String middleName,
                     String lastName, String phoneNumber, String email) {
         this.id = id;
         this.firstName = firstName;

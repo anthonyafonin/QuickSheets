@@ -1,6 +1,6 @@
-package anthonyafonin.quicksheets.database;
+package anthonyafonin.quicksheets.database.Model;
 
-public class Timesheets {
+public class Timesheet {
     private int id;
     private String sheetTitle;
     private String startDate;
@@ -8,8 +8,8 @@ public class Timesheets {
     private int yearDate;
 
     // Constructor
-    public Timesheets(int id, String sheetTitle, String startDate,
-                    String endDate, int yearDate) {
+    public Timesheet(int id, String sheetTitle, String startDate,
+                     String endDate, int yearDate) {
         this.id = id;
         this.sheetTitle = sheetTitle;
         this.startDate = startDate;
