@@ -57,23 +57,23 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     // Create 'Accounts' Table
     private static final String CREATE_TABLE_ACCOUNT = "CREATE TABLE " + TABLE_ACCOUNTS
             + "("
-            + ACCOUNT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + ACCOUNT_FIRST + "VARCHAR(20) NOT NULL,"
-            + ACCOUNT_MIDDLE + "VARCHAR(20),"
-            + ACCOUNT_LAST + "VARCHAR(20) NOT NULL,"
-            + ACCOUNT_PHONE + "VARCHAR(15) NOT NULL,"
-            + ACCOUNT_EMAIL + "VARCHAR(25) NOT NULL"
+            + ACCOUNT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + ACCOUNT_FIRST + "VARCHAR(20) NOT NULL, "
+            + ACCOUNT_MIDDLE + "VARCHAR(20), "
+            + ACCOUNT_LAST + "VARCHAR(20) NOT NULL, "
+            + ACCOUNT_PHONE + "VARCHAR(15) NOT NULL, "
+            + ACCOUNT_EMAIL + "VARCHAR(25) NOT NULL "
             + ")";
 
     // Create 'Time_Sheets' Table
     private static final String CREATE_TABLE_TIME_SHEETS = "CREATE TABLE " + TABLE_TIME_SHEET
             + "("
-            + TIMESHEET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + TIMESHEET_TITLE + "VARCHAR(25) NOT NULL,"
-            + TIMESHEET_START + "DATE NOT NULL"
-            + TIMESHEET_END + "DATE NOT NULL,"
-            + TIMESHEET_YEAR + " INTEGER NOT NULL,"
-            + TIMESHEET_ACCOUNT_ID + "INTEGER NOT NULL,"
+            + TIMESHEET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + TIMESHEET_TITLE + "VARCHAR(25) NOT NULL, "
+            + TIMESHEET_START + "DATE NOT NULL, "
+            + TIMESHEET_END + "DATE NOT NULL, "
+            + TIMESHEET_YEAR + " INTEGER NOT NULL, "
+            + TIMESHEET_ACCOUNT_ID + "INTEGER NOT NULL, "
             + "FOREIGN KEY(" + TIMESHEET_ACCOUNT_ID + ") REFERENCES "
             + TABLE_ACCOUNTS + "(" + ACCOUNT_ID + ")"
             + ")";
@@ -81,13 +81,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     // Create 'TS_Entry' Table
     private static final String CREATE_TABLE_TS_ENTRY = "CREATE TABLE " + TABLE_TS_ENTRY
             + "("
-            + ENTRY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + ENTRY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + ENTRY_JOB_TYPE + "VARCHAR(20) NOT NULL,"
-            + ENTRY_CUSTOMER + " VARCHAR(25) NOT NULL"
+            + ENTRY_CUSTOMER + " VARCHAR(25) NOT NULL, "
             + ENTRY_DESCRIPTION + " VARCHAR(50) NOT NULL,"
-            + ENTRY_HOURS + " REAL NOT NULL"
-            + ENTRY_DATE + "DATE NOT NULL,"
-            + ENTRY_TIMESHEET_ID + "INTEGER NOT NULL,"
+            + ENTRY_HOURS + " REAL NOT NULL, "
+            + ENTRY_DATE + "DATE NOT NULL, "
+            + ENTRY_TIMESHEET_ID + "INTEGER NOT NULL, "
             + "FOREIGN KEY(" + ENTRY_TIMESHEET_ID + ") REFERENCES "
             + TABLE_TIME_SHEET + "(" + TIMESHEET_ID + ")"
             + ")";
