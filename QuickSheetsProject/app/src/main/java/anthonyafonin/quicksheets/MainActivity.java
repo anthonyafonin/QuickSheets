@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,12 +14,11 @@ import java.util.TimerTask;
 import anthonyafonin.quicksheets.database.DatabaseHelper;
 import anthonyafonin.quicksheets.R;
 
+import static anthonyafonin.quicksheets.database.DatabaseHelper.DATABASE_NAME;
+
 public class MainActivity extends Activity {
 
     DatabaseHelper db;
-    SQLiteDatabase sqldb;
-    Context context;
-
     int timeout = 3000; //Timer for splashscreen, 3 seconds.
 
     @Override
@@ -28,8 +28,9 @@ public class MainActivity extends Activity {
         getWindow().getAttributes().format = android.graphics.PixelFormat.RGBA_8888;
         setContentView(R.layout.activity_main);
 
-        DatabaseHelper db = new DatabaseHelper(context);
-        db.onCreate(sqldb);
+        //Create Database Schema
+        //SQLiteDatabase db = new DatabaseHelper(this.getWritableDatabase());
+        db = new DatabaseHelper(this);
         run();
     }
 
