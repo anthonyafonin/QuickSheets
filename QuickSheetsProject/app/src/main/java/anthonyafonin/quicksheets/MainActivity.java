@@ -20,6 +20,7 @@ public class MainActivity extends Activity {
 
     DatabaseHelper db;
     int timeout = 3000; //Timer for splashscreen, 3 seconds.
+    Intent homepage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +40,16 @@ public class MainActivity extends Activity {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                // TODO: Your application init goes here.
-                Intent homepage = new Intent(MainActivity.this, LoginActivity.class);
-                MainActivity.this.startActivity(homepage);
-                MainActivity.this.finish();
+
+                // Checks if shared preference of Account Id, redirects accordingly
+                if((AccountSharedPref.loadAccountId(MainActivity.this)) == 0) {
+                    homepage = new Intent(MainActivity.this, LoginActivity.class);
+                }
+                else{
+                    homepage = new Intent(MainActivity.this, HomeActivity.class);
+                }
+                    MainActivity.this.startActivity(homepage);
+                    MainActivity.this.finish();
             }
         }, timeout);
     }

@@ -2,8 +2,11 @@ package anthonyafonin.quicksheets.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 import java.util.List;
 
 // Import Database Model Classes
@@ -141,18 +144,101 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.close(); // Closing database connection
     }
 
-    // Get single Account
-    public Account getAccount(int id){
-        return null;
+    // Get Account id from email
+    public int getAccountIdByEmail(String email){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //Initialize query() parameters
+        String[] account = { ACCOUNT_ID };
+        String[] selectionArgs ={ email };
+        String selection = ACCOUNT_EMAIL + " = ?";
+
+        Cursor cursor = db.query(TABLE_ACCOUNTS,
+                account, selection, selectionArgs, null, null, null);
+
+        if(cursor != null)
+            cursor.moveToFirst();
+        int accountId = Integer.parseInt(cursor.getString(0));
+
+        //Account account = new Account(Integer.parseInt(cursor.getString(0)),
+         //       cursor.getString(1),cursor.getString(2),cursor.getString(3),
+          //      cursor.getString(4),cursor.getString(5));
+
+        cursor.close();
+        return accountId;
     }
 
-    // Get all Accounts
+    public boolean checkAccount(String email) {
+
+        // array of columns to fetch
+        String[] columns = { ACCOUNT_ID };
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // selection criteria
+        String selection = ACCOUNT_EMAIL + " = ?";
+
+        // selection argument
+        String[] selectionArgs = {email};
+
+        // query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com';
+         */
+        Cursor cursor = db.query(TABLE_ACCOUNTS, //Table to query
+                columns,                    //columns to return
+                selection,                  //columns for the WHERE clause
+                selectionArgs,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                      //filter by row groups
+                null);                      //The sort order
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        db.close();
+
+        if (cursorCount > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    //Get all Accounts
     public List<Account> getAllAccounts(){
-        return null;
+
+        //Create account list
+        List<Account> accountList = new ArrayList<Account>();
+
+        //Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_ACCOUNTS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        //Loop through rows and add to list
+        if(cursor.moveToFirst()){
+            do{
+                Account account = new Account();
+                account.setId(Integer.parseInt(cursor.getString(0)));
+                account.setFirstName(cursor.getString(1));
+                account.setMiddleName(cursor.getString(2));
+                account.setLastName(cursor.getString(3));
+                account.setPhoneNumber(cursor.getString(4));
+                account.setEmail(cursor.getString(5));
+
+                //Add Account to list
+                accountList.add(account);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return accountList;
     }
 
     // Get Account count
     public int getAccountCount(){
+
+        //Query SQL Statement
+        //String accountQuery = "SELECT * FROM "
         return 0;
     }
 
