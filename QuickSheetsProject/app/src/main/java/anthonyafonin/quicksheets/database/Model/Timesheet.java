@@ -8,7 +8,17 @@ public class Timesheet {
     private String endDate;
     private int yearDate;
 
-    // Constructor
+    // Constructors
+    public Timesheet() {}
+
+    public Timesheet(String sheetTitle, String startDate,
+                      String endDate, int yearDate) {
+        this.sheetTitle = sheetTitle;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.yearDate = yearDate;
+    }
+
     public Timesheet(long id, String sheetTitle, String startDate,
                      String endDate, int yearDate) {
         this.id = id;

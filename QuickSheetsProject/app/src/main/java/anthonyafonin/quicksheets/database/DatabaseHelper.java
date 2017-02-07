@@ -255,7 +255,20 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     //--------------------------------------------------
 
     // Add Timesheet
-    public void addTimesheet(Timesheet tsheet){}
+    public void addTimesheet(Timesheet tsheet){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Adding Account attribute values
+        ContentValues values = new ContentValues();
+        values.put(TIMESHEET_TITLE, tsheet.getSheetTitle());
+        values.put(TIMESHEET_START, tsheet.getStartDate());
+        values.put(TIMESHEET_END, tsheet.getEndDate());
+        values.put(TIMESHEET_YEAR, tsheet.getYearDate());
+
+        // Inserting Row
+        db.insert(TABLE_TIME_SHEET, null, values);
+        db.close(); // Closing database connection
+    }
 
     // Get single Timesheet
     public Timesheet getTimesheet(int id){

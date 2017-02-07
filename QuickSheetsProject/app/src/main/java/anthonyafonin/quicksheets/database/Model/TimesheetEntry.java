@@ -10,6 +10,17 @@ public class TimesheetEntry {
     private String entryDate;
 
     // Constructor
+    public TimesheetEntry() {}
+
+    public TimesheetEntry(String jobType, String customer,
+                          String description, double entryHours, String entryDate) {
+        this.jobType = jobType;
+        this.customer = customer;
+        this.description = description;
+        this.entryHours = entryHours;
+        this.entryDate = entryDate;
+    }
+
     public TimesheetEntry(long id, String jobType, String customer,
                     String description, double entryHours, String entryDate) {
         this.id = id;
