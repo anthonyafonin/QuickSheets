@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String TAG = DatabaseHelper.class.getSimpleName();
 
     // Database Version
-    public static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 1;
 
     // Database Name
     public static final String DATABASE_NAME = "QuickSheets.db";
@@ -236,19 +238,33 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Get Account count
     public int getAccountCount(){
-
-        //Query SQL Statement
-        //String accountQuery = "SELECT * FROM "
         return 0;
     }
 
     // Update single Account
-    public int updateAccount(Account account){
-        return 0;
+    public int updateAccount(Account account, int accountId){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Adding Account attribute values
+        ContentValues values = new ContentValues();
+        values.put(ACCOUNT_FIRST, account.getFirstName());
+        values.put(ACCOUNT_MIDDLE, account.getMiddleName());
+        values.put(ACCOUNT_LAST, account.getLastName());
+        values.put(ACCOUNT_PHONE, account.getPhoneNumber());
+        values.put(ACCOUNT_EMAIL, account.getEmail());
+
+        // updating row
+        return db.update(TABLE_ACCOUNTS, values, ACCOUNT_ID + " = ?",
+                new String[] { String.valueOf(accountId) });
     }
 
     // Delete single Account
-    public void deleteAccount(Account account){}
+    public void deleteAccount(Account account, int accountId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_ACCOUNTS, ACCOUNT_ID + " = ?",
+                new String[] { String.valueOf(accountId) });
+        db.close();
+    }
 
     //--------------------------------------------------
     // TimeSheet CRUD Operations
@@ -272,54 +288,208 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Get single Timesheet
     public Timesheet getTimesheet(int id){
-        return null;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_TIME_SHEET, new String[] {
+                TIMESHEET_ID, TIMESHEET_TITLE, TIMESHEET_START, TIMESHEET_END, TIMESHEET_YEAR },
+                TIMESHEET_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Timesheet tsheet = new Timesheet(Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1), cursor.getString(2), cursor.getString(3),
+                Integer.parseInt(cursor.getString(4)));
+
+        cursor.close();
+        return tsheet;
     }
 
     // Get all Timesheets
     public List<Timesheet> getAllTimesheets(){
-        return null;
+
+        //Create Timesheet list
+        List<Timesheet> tsheetList = new ArrayList<Timesheet>();
+
+        //Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_TIME_SHEET;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        //Loop through rows and add to list
+        if(cursor.moveToFirst()){
+            do{
+                Timesheet tsheet = new Timesheet();
+                tsheet.setId(Integer.parseInt(cursor.getString(0)));
+                tsheet.setSheetTitle(cursor.getString(1));
+                tsheet.setStartDate(cursor.getString(2));
+                tsheet.setEndDate(cursor.getString(3));
+                tsheet.setYearDate(Integer.parseInt(cursor.getString(4)));
+
+                //Add Account to list
+                tsheetList.add(tsheet);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return tsheetList;
     }
 
     // Get Timesheet count
     public int getTimesheetCount(){
-        return 0;
+        String countQuery = "SELECT  * FROM " + TABLE_TIME_SHEET;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
+
+        // return count
+        return cursor.getCount();
     }
 
     // Update single Timesheet
-    public int updateTimesheet(Timesheet tsheet){
-        return 0;
+    public int updateTimesheet(Timesheet tsheet, int tsheetId){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Adding Account attribute values
+        ContentValues values = new ContentValues();
+        values.put(TIMESHEET_TITLE, tsheet.getSheetTitle());
+        values.put(TIMESHEET_START, tsheet.getStartDate());
+        values.put(TIMESHEET_END, tsheet.getEndDate());
+        values.put(TIMESHEET_YEAR, tsheet.getYearDate());
+
+        // updating row
+        return db.update(TABLE_TIME_SHEET, values, TIMESHEET_ID + " = ?",
+                new String[] { String.valueOf(tsheetId) });
     }
 
     // Delete single Timesheet
-    public void deleteTimesheet(Timesheet tsheet){}
+    public void deleteTimesheet(Timesheet tsheet, int tsheetId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_TIME_SHEET, TIMESHEET_ID + " = ?",
+                new String[] { String.valueOf(tsheetId) });
+        db.close();
+    }
 
     //--------------------------------------------------
     // TimeSheet Entry CRUD Operations
     //--------------------------------------------------
 
     // Add Entry
-    public void addEntry(TimesheetEntry entry){}
+    public void addEntry(TimesheetEntry entry){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Adding Account attribute values
+        ContentValues values = new ContentValues();
+        values.put(ENTRY_JOB_TYPE, entry.getJobType());
+        values.put(ENTRY_CUSTOMER, entry.getCustomer());
+        values.put(ENTRY_DESCRIPTION, entry.getDescription());
+        values.put(ENTRY_HOURS, entry.getEntryHours());
+        values.put(ENTRY_DATE, entry.getEntryDate());
+
+        // Inserting Row
+        db.insert(TABLE_TS_ENTRY, null, values);
+        db.close(); // Closing database connection
+    }
 
     // Get single Entry
     public TimesheetEntry getEntry(int id){
-        return null;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_TS_ENTRY, new String[] {
+                        ENTRY_ID, ENTRY_JOB_TYPE, ENTRY_CUSTOMER, ENTRY_DESCRIPTION,
+                        ENTRY_HOURS, ENTRY_DATE },
+                ENTRY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        TimesheetEntry entry = new TimesheetEntry(Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1), cursor.getString(2), cursor.getString(3),
+                Integer.parseInt(cursor.getString(4)),cursor.getString(5));
+
+        cursor.close();
+        return entry;
     }
 
     // Get all Entrys
     public List<TimesheetEntry> getAllEntrys(){
-        return null;
+        //Create Timesheet list
+        List<TimesheetEntry> entryList = new ArrayList<TimesheetEntry>();
+
+        //Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_TS_ENTRY;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        //Loop through rows and add to list
+        if(cursor.moveToFirst()){
+            do{
+                TimesheetEntry entry = new TimesheetEntry();
+                entry.setId(Integer.parseInt(cursor.getString(0)));
+                entry.setJobType(cursor.getString(1));
+                entry.setCustomer(cursor.getString(2));
+                entry.setDescription(cursor.getString(3));
+                entry.setEntryHours(Integer.parseInt(cursor.getString(4)));
+                entry.setEntryDate(cursor.getString(5));
+
+                //Add Account to list
+                entryList.add(entry);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return entryList;
     }
 
     // Get Entry count
     public int getEntryCount(){
-        return 0;
+        String countQuery = "SELECT  * FROM " + TABLE_TS_ENTRY;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
+
+        // return count
+        return cursor.getCount();
     }
 
     // Update single Entry
-    public int updateEntry(TimesheetEntry entry){
-        return 0;
+    public int updateEntry(TimesheetEntry entry, int entryId){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Adding Account attribute values
+        ContentValues values = new ContentValues();
+        values.put(ENTRY_JOB_TYPE, entry.getJobType());
+        values.put(ENTRY_CUSTOMER, entry.getCustomer());
+        values.put(ENTRY_DESCRIPTION, entry.getDescription());
+        values.put(ENTRY_HOURS, entry.getEntryHours());
+        values.put(ENTRY_DATE, entry.getEntryDate());
+
+        // updating row
+        return db.update(TABLE_TS_ENTRY, values, ENTRY_ID + " = ?",
+                new String[] { String.valueOf(entryId) });
     }
 
     // Delete single Entry
-    public void deleteEntry(TimesheetEntry entry){}
+    public void deleteEntry(TimesheetEntry entry, int entryId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_TS_ENTRY, ENTRY_ID + " = ?",
+                new String[] { String.valueOf(entryId) });
+        db.close();
+    }
+
+    /* Work in progress, Join query
+    public void getJoinedEntrySheet(){
+        //Create new querybuilder
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        qb.setTables(TABLE_TIME_SHEET +
+                " LEFT OUTER JOIN " + TABLE_TS_ENTRY + " ON " +
+                TIMESHEET_ID + " = " + ENTRY_TIMESHEET_ID);
+
+        String orderBy = ENTRY_ID + " ASC";
+
+
+        Cursor cursor = qb.query(db, null, null, null, null, null, orderBy);
+        return result;
+    }
+    */
 }

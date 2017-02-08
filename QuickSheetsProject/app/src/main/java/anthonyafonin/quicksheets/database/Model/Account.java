@@ -3,11 +3,7 @@ package anthonyafonin.quicksheets.database.Model;
 public class Account {
 
     private int id;
-    private String firstName;
-    private String middleName;
-    private String lastName;
-    private String phoneNumber;
-    private String email;
+    private String firstName, middleName, lastName, phoneNumber, email;
 
     // Constructors
     public Account(){}
@@ -55,7 +51,7 @@ public class Account {
     }
 
     // Getters
-    public long getId(){
+    public int getId(){
         return this.id;
     }
 

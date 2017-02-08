@@ -2,11 +2,8 @@ package anthonyafonin.quicksheets.database.Model;
 
 public class Timesheet {
 
-    private long id;
-    private String sheetTitle;
-    private String startDate;
-    private String endDate;
-    private int yearDate;
+    private int id, yearDate, accountId;
+    private String sheetTitle, startDate, endDate;
 
     // Constructors
     public Timesheet() {}
@@ -19,7 +16,7 @@ public class Timesheet {
         this.yearDate = yearDate;
     }
 
-    public Timesheet(long id, String sheetTitle, String startDate,
+    public Timesheet(int id, String sheetTitle, String startDate,
                      String endDate, int yearDate) {
         this.id = id;
         this.sheetTitle = sheetTitle;
@@ -29,7 +26,7 @@ public class Timesheet {
     }
 
     // Setters
-    public void setId(long id){
+    public void setId(int id){
         this.id = id;
     }
 
@@ -50,7 +47,7 @@ public class Timesheet {
     }
 
     // Getters
-    public long getId(){
+    public int getId(){
         return this.id;
     }
 
