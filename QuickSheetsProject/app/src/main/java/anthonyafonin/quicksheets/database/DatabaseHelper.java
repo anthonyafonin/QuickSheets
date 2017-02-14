@@ -271,7 +271,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     //--------------------------------------------------
 
     // Add Timesheet
-    public void addTimesheet(Timesheet tsheet){
+    public void addTimesheet(Timesheet tsheet, int accountId){
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Adding Account attribute values
@@ -280,6 +280,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(TIMESHEET_START, tsheet.getStartDate());
         values.put(TIMESHEET_END, tsheet.getEndDate());
         values.put(TIMESHEET_YEAR, tsheet.getYearDate());
+        values.put(TIMESHEET_ACCOUNT_ID, tsheet.getAccountId());
 
         // Inserting Row
         db.insert(TABLE_TIME_SHEET, null, values);
@@ -305,13 +306,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     // Get all Timesheets
-    public List<Timesheet> getAllTimesheets(){
+    public List<Timesheet> getAllTimesheets(int accountId){
 
         //Create Timesheet list
         List<Timesheet> tsheetList = new ArrayList<Timesheet>();
 
         //Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_TIME_SHEET;
+        String selectQuery = "SELECT * FROM " + TABLE_TIME_SHEET + "WHERE ts_account_id = "
+                                + accountId + "ORDER BY id DESC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

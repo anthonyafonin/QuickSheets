@@ -25,6 +25,16 @@ public class Timesheet {
         this.yearDate = yearDate;
     }
 
+    public Timesheet(int id, String sheetTitle, String startDate,
+                     String endDate, int yearDate, int accountId) {
+        this.id = id;
+        this.sheetTitle = sheetTitle;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.yearDate = yearDate;
+        this.accountId = accountId;
+    }
+
     // Setters
     public void setId(int id){
         this.id = id;
@@ -46,6 +56,10 @@ public class Timesheet {
         this.yearDate = yearDate;
     }
 
+    public void setAccountId(int accountId){
+        this.accountId = accountId;
+    }
+
     // Getters
     public int getId(){
         return this.id;
@@ -65,6 +79,10 @@ public class Timesheet {
 
     public int getYearDate(){
         return this.yearDate;
+    }
+
+    public int getAccountId(){
+        return this.accountId;
     }
 }
 

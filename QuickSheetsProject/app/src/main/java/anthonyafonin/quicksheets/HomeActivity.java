@@ -25,6 +25,7 @@ public class HomeActivity extends AppCompatActivity
 
     Context mContext;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +38,12 @@ public class HomeActivity extends AppCompatActivity
         Toast.makeText(HomeActivity.this,
                "Account Id: " + accountId, Toast.LENGTH_LONG).show();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addSheet);
         fab.setOnClickListener(new View.OnClickListener() {
-            @Override
+
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent i = new Intent(view.getContext(), AddSheetForm.class);
+                startActivity(i);
             }
         });
 
@@ -107,12 +108,17 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.nav_logout){
+
+            // Logs the user out and clears the Shared Preference
             AccountSharedPref.logoutUser(this);
-            int accountId = AccountSharedPref.loadAccountId(mContext);
             Intent homepage = new Intent(this, LoginActivity.class);
             this.startActivity(homepage);
+            int accountId = AccountSharedPref.loadAccountId(mContext);
+
+            //TEMP CODE, DISPLAYS CURRENT ACCOUNT ID
             Toast.makeText(HomeActivity.this,
                     "Account Id: " + accountId, Toast.LENGTH_LONG).show();
+
             this.finish();
         }
 
