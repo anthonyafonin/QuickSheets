@@ -25,9 +25,8 @@ public class Timesheet {
         this.yearDate = yearDate;
     }
 
-    public Timesheet(int id, String sheetTitle, String startDate,
+    public Timesheet(String sheetTitle, String startDate,
                      String endDate, int yearDate, int accountId) {
-        this.id = id;
         this.sheetTitle = sheetTitle;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -38,6 +37,10 @@ public class Timesheet {
     // Setters
     public void setId(int id){
         this.id = id;
+    }
+
+    public String toString() {
+        return this.sheetTitle;
     }
 
     public void setSheetTitle(String sheetTitle){

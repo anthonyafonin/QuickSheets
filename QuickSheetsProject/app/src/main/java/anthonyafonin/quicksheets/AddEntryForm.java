@@ -1,6 +1,8 @@
 package anthonyafonin.quicksheets;
 
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,41 +13,41 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import anthonyafonin.quicksheets.Fragments.Sheets;
 import anthonyafonin.quicksheets.database.DatabaseHelper;
 import anthonyafonin.quicksheets.database.Model.Account;
 import anthonyafonin.quicksheets.database.Model.Timesheet;
 
-public class AddSheetForm extends AppCompatActivity {
+public class AddEntryForm extends AppCompatActivity {
 
     private EditText titleText, startDateText, endDateText, yearText;
     DatabaseHelper db = new DatabaseHelper(this);
     Button btnSubmit, btnCancel;
     Account acc;
     Timesheet sheet;
-    Context context = this;
+    //Context context = this;
     int accountId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_sheet);
+        setContentView(R.layout.add_entry);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        final AddEntryForm context = this;
 
         // Loads account id from shared pref
         accountId = AccountSharedPref.loadAccountId(context);
 
         // Assigns buttons
-        btnSubmit = (Button)(findViewById(R.id.btnSubmit));
-        //btnCancel = (Button)findViewById(R.id.btnCancel);
+        btnSubmit = (Button)(findViewById(R.id.btnSubmitEntry));
+        //btnCancel = (Button)findViewById(R.id.btnCancelEntry);
 
         //Assign variables to text fields
-        titleText = (EditText) findViewById(R.id.txtTitle);
+        /*titleText = (EditText) findViewById(R.id.txtTitle);
         startDateText = (EditText) findViewById(R.id.txtStartDate);
         endDateText = (EditText) findViewById(R.id.txtEndDate);
-        yearText =  (EditText) findViewById(R.id.txtYear);
+        yearText =  (EditText) findViewById(R.id.txtYear);*/
 
         // Action listener for button submit
         createSheet();
@@ -53,8 +55,7 @@ public class AddSheetForm extends AppCompatActivity {
         /*// Action listener for Button Cancel, returns to home activity
         btnCancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), HomeActivity.class);
-                startActivity(intent);
+
             }
         });*/
 
@@ -64,8 +65,7 @@ public class AddSheetForm extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), HomeActivity.class);
-                startActivity(intent);
+                context.finish();
             }
         });
     }
@@ -89,13 +89,13 @@ public class AddSheetForm extends AppCompatActivity {
                             try{
                                 //Breaks if all required fields are not filled
                                 if(
-                                    titleText.getText().toString().matches("")
-                                    || startDateText.getText().toString().matches("")
-                                    || endDateText.getText().toString().matches(""))
+                                        titleText.getText().toString().matches("")
+                                                || startDateText.getText().toString().matches("")
+                                                || endDateText.getText().toString().matches(""))
                                 {
                                     Toast.makeText(
-                                        AddSheetForm.this, "Please Fill In Required Fields",
-                                        Toast.LENGTH_LONG).show();
+                                            AddEntryForm.this, "Please Fill In Required Fields",
+                                            Toast.LENGTH_LONG).show();
                                     break;
                                 }
 
@@ -103,7 +103,7 @@ public class AddSheetForm extends AppCompatActivity {
                                 try {
                                     yearDate = Integer.parseInt(yearText.getText().toString());
                                 } catch(NumberFormatException nfe) {
-                                    Toast.makeText(AddSheetForm.this,
+                                    Toast.makeText(AddEntryForm.this,
                                             "Invalid Year",
                                             Toast.LENGTH_LONG).show();
                                     break;
@@ -116,11 +116,11 @@ public class AddSheetForm extends AppCompatActivity {
                                 Intent i = new Intent(v.getContext(), HomeActivity.class);
                                 startActivity(i);
 
-                                Toast.makeText(AddSheetForm.this,
+                                Toast.makeText(AddEntryForm.this,
                                         "Timesheet Created", Toast.LENGTH_LONG).show();
                             }
                             catch(Exception e){
-                                Toast.makeText(AddSheetForm.this,
+                                Toast.makeText(AddEntryForm.this,
                                         "Error: Invalid Field Types", Toast.LENGTH_LONG).show();
                             }
 

@@ -13,6 +13,7 @@ import anthonyafonin.quicksheets.database.DatabaseHelper;
 import anthonyafonin.quicksheets.database.Model.Account;
 
 public class Register extends Activity {
+
     private EditText firstNameText, middleNameText, lastNameText, phoneText, emailText, reEmailText;
     DatabaseHelper db = new DatabaseHelper(this);
     Button registerAccount, returnToLogin;
@@ -54,12 +55,12 @@ public class Register extends Activity {
                     @Override
                     public void onClick(View v) {
 
-                            // Create an Instance of an Account from user input
-                            acc = new Account(firstNameText.getText().toString(),
-                                    middleNameText.getText().toString(),
-                                    lastNameText.getText().toString(),
-                                    phoneText.getText().toString(),
-                                    emailText.getText().toString());
+                        // Create an Instance of an Account from user input
+                        acc = new Account(firstNameText.getText().toString(),
+                                middleNameText.getText().toString(),
+                                lastNameText.getText().toString(),
+                                phoneText.getText().toString(),
+                                emailText.getText().toString());
                         do{
                             try{
                                 //Breaks if all required fields are not filled

@@ -280,7 +280,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(TIMESHEET_START, tsheet.getStartDate());
         values.put(TIMESHEET_END, tsheet.getEndDate());
         values.put(TIMESHEET_YEAR, tsheet.getYearDate());
-        values.put(TIMESHEET_ACCOUNT_ID, tsheet.getAccountId());
+        values.put(TIMESHEET_ACCOUNT_ID, accountId);
 
         // Inserting Row
         db.insert(TABLE_TIME_SHEET, null, values);
@@ -288,17 +288,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     // Get single Timesheet
-    public Timesheet getTimesheet(int id){
+    public Timesheet getTimesheet(int accountId){
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_TIME_SHEET, new String[] {
                 TIMESHEET_ID, TIMESHEET_TITLE, TIMESHEET_START, TIMESHEET_END, TIMESHEET_YEAR },
-                TIMESHEET_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
+                TIMESHEET_ID + "=?", new String[] { String.valueOf(accountId) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        Timesheet tsheet = new Timesheet(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3),
+        Timesheet tsheet = new Timesheet(cursor.getString(0),
+                cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3)),
                 Integer.parseInt(cursor.getString(4)));
 
         cursor.close();
@@ -312,8 +312,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         List<Timesheet> tsheetList = new ArrayList<Timesheet>();
 
         //Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_TIME_SHEET + "WHERE ts_account_id = "
-                                + accountId + "ORDER BY id DESC";
+        String selectQuery = "SELECT * FROM " + TABLE_TIME_SHEET + " WHERE ts_account_id = "
+                                + accountId + " ORDER BY sheet_id DESC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -327,21 +327,32 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 tsheet.setStartDate(cursor.getString(2));
                 tsheet.setEndDate(cursor.getString(3));
                 tsheet.setYearDate(Integer.parseInt(cursor.getString(4)));
+                tsheet.setAccountId(Integer.parseInt(cursor.getString(5)));
 
-                //Add Account to list
+                //Add Sheet to list
+                int sheetID = cursor.getInt(cursor.getColumnIndex(TIMESHEET_ID));
+                String title = cursor.getString(cursor.getColumnIndex(TIMESHEET_TITLE));
+                String start = cursor.getString(cursor.getColumnIndex(TIMESHEET_START));
+                String end = cursor.getString(cursor.getColumnIndex(TIMESHEET_END));
+
+                //title += "\n\tDates: " + start + " - " + end;
                 tsheetList.add(tsheet);
+
             }while(cursor.moveToNext());
         }
+
         cursor.close();
+
         return tsheetList;
     }
 
     // Get Timesheet count
-    public int getTimesheetCount(){
-        String countQuery = "SELECT  * FROM " + TABLE_TIME_SHEET;
+    public int getTimesheetCount(int accountId){
+        String countQuery = "SELECT  * FROM " + TABLE_TIME_SHEET + " WHERE " + TIMESHEET_ACCOUNT_ID +  " = "
+        + accountId;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
+
 
         // return count
         return cursor.getCount();
