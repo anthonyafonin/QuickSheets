@@ -1,4 +1,7 @@
 <resources>
+    <!-- Activity Titles -->
+    <string name="title_activity_home">QuickSheets</string>
+    <string name="action_settings">Settings</string>
     <string name="app_name">QuickSheets</string>
 
     <!-- Strings related to login -->
@@ -9,15 +12,32 @@
     <string name="prompt_middle">Middle Name (Optional)</string>
     <string name="prompt_last">Last Name</string>
     <string name="prompt_number">Phone Number</string>
+
+    <!-- Validation Strings -->
     <string name="action_sign_in">Login</string>
     <string name="action_register">Register</string>
     <string name="action_returnLogin">Return to Login</string>
+
+    <!-- Validation Strings -->
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_field_required">This field is required</string>
-    <string name="title_activity_home">QuickSheets</string>
 
+    <!-- Add Time Sheet Strings -->
+    <string name="prompt_new_sheet">New Time Sheet</string>
+    <string name="add_sheet">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="prompt_sheetTitle">Title</string>
+    <string name="prompt_startDate">Start Date (M/DD)</string>
+    <string name="prompt_endDate">End Date(m/dd)</string>
+    <string name="prompt_sheetYear">Year</string>
+
+    <!-- Navigation Drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="large_text"></string>
 
-    <string name="action_settings">Settings</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
