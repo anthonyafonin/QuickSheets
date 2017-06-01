@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="anthonyafonin.quicksheets.AddSheetForm">
+        tools:context="anthonyafonin.quicksheets.AddEntryForm">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -42,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
-                android:text="@string/prompt_sheetTitle" />
+                android:text="Description" />
 
             <EditText
                 android:id="@+id/txtTitle"
@@ -129,11 +130,13 @@
                 android:orientation="horizontal" >
 
                 <Button
-                    android:id="@+id/btnSubmit"
+                    android:id="@+id/btnSubmitEntry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="5"
-                    android:text="submit" />
+                    android:text="submit"
+                    android:gravity="center_vertical|center_horizontal|center" />
+
 
             </LinearLayout>
         </LinearLayout>
