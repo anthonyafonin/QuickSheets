@@ -1,4 +1,4 @@
-package anthonyafonin.quicksheets;
+package anthonyafonin.quicksheets.AddForms;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import anthonyafonin.quicksheets.LoginActivity;
 import anthonyafonin.quicksheets.R;
 import anthonyafonin.quicksheets.database.DatabaseHelper;
 import anthonyafonin.quicksheets.database.Model.Account;
