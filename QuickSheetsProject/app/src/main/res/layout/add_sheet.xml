@@ -39,10 +39,11 @@
             android:orientation="horizontal" >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/nav_header_height"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:text="@string/prompt_sheetTitle" />
+                android:text="@string/prompt_sheetTitle"
+                android:gravity="right"
+                android:paddingRight="10dp"/>
 
             <EditText
                 android:id="@+id/txtTitle"
@@ -50,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.75"
                 android:ems="10"
-                android:backgroundTint="?attr/colorButtonNormal" />
+                android:paddingRight="10dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -59,17 +60,19 @@
             android:orientation="horizontal" >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/nav_header_height"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:text="@string/prompt_startDate" />
+                android:text="@string/prompt_startDate"
+                android:gravity="right"
+                android:paddingRight="10dp"/>
 
             <EditText
                 android:id="@+id/txtStartDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.75"
-                android:ems="10" />
+                android:ems="10"
+                android:paddingRight="10dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,17 +81,19 @@
             android:orientation="horizontal" >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/nav_header_height"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:text="@string/prompt_endDate" />
+                android:text="@string/prompt_endDate"
+                android:gravity="right"
+                android:paddingRight="10dp"/>
 
             <EditText
                 android:id="@+id/txtEndDate"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.75"
                 android:ems="10"
-                android:layout_width="15dp" />
+                android:layout_width="15dp"
+                android:paddingRight="10dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -97,18 +102,20 @@
             android:orientation="horizontal" >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/nav_header_height"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="0.25"
-                android:text="@string/prompt_sheetYear" />
+                android:text="@string/prompt_sheetYear"
+                android:gravity="right"
+                android:paddingRight="10dp"/>
 
             <EditText
                 android:id="@+id/txtYear"
                 android:layout_height="wrap_content"
                 android:ems="5"
                 android:layout_weight="0.25"
-                android:layout_width="15dp" />
+                android:layout_width="15dp"
+                android:paddingRight="10dp"/>
 
         </LinearLayout>
 
