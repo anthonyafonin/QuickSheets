@@ -1,16 +1,14 @@
 package anthonyafonin.quicksheets;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import anthonyafonin.quicksheets.R;
+import anthonyafonin.quicksheets.AddForms.Register;
 import anthonyafonin.quicksheets.database.DatabaseHelper;
 
 public class LoginActivity extends Activity {
@@ -44,6 +42,9 @@ public class LoginActivity extends Activity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // Clears the Shared Preference
+                AccountSharedPref.logoutUser(v.getContext());
 
                 try{
                     if(db.checkAccount(emailText.getText().toString().trim())){

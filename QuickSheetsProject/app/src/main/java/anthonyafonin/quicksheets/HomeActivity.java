@@ -26,12 +26,19 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.w3c.dom.Text;
+
 import anthonyafonin.quicksheets.Fragments.Sheets;
+import anthonyafonin.quicksheets.UpdateForms.UpdateAccount;
 import anthonyafonin.quicksheets.database.DatabaseHelper;
+import anthonyafonin.quicksheets.database.Model.Account;
 
 
 public class HomeActivity extends AppCompatActivity
@@ -39,8 +46,10 @@ public class HomeActivity extends AppCompatActivity
 
     DatabaseHelper db = new DatabaseHelper(this);
     Context mContext = this;
-    private EditText title, start, end, year;
-
+    String name, email, phone;
+    TextView nameText, emailText, phoneText;
+    Account acc;
+    NavigationView nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,22 +60,27 @@ public class HomeActivity extends AppCompatActivity
 
         this.setActionBarTitle("QuickSheets");
 
+        // Retrieves logged in account
+        int accountId = AccountSharedPref.loadAccountId(mContext);
+        acc = db.getAccount(accountId);
+
+        //Assign account info to nav menu txt views
+        nav = (NavigationView) findViewById(R.id.nav_view);
+        View header = nav.getHeaderView(0);
+        nameText = (TextView) header.findViewById(R.id.lblName);
+        emailText = (TextView) header.findViewById(R.id.lblEmail);
+        phoneText = (TextView) header.findViewById(R.id.lblPhone);
+
+
+
+
+
         // Creates a fragment manager and shows sheets fragment
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Sheets f1 = new Sheets();
         ft.add(R.id.fragment_container, f1);
         ft.commit();
-
-
-        // Temp code shows account id
-        int accountId = AccountSharedPref.loadAccountId(mContext);
-        Toast.makeText(HomeActivity.this,
-                "Sheets: " + db.getTimesheetCount(accountId), Toast.LENGTH_LONG).show();
-
-
-
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -91,6 +105,26 @@ public class HomeActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // Deselect all nav items
+        nav.getMenu().findItem(R.id.nav_acc).setChecked(false);
+        nav.getMenu().findItem(R.id.nav_home).setChecked(false);
+        nav.getMenu().findItem(R.id.nav_logout).setChecked(false);
+        nav.getMenu().findItem(R.id.nav_backup).setChecked(false);
+        nav.getMenu().findItem(R.id.nav_logout).setChecked(false);
+
+        // Gets account info and displays in nav menu
+        name = acc.getFirstName() + " " + acc.getLastName();
+        email = acc.getEmail();
+        phone = acc.getPhoneNumber();
+        nameText.setText(name);
+        emailText.setText(email);
+        phoneText.setText(phone);
     }
 
     @Override
@@ -121,7 +155,11 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_import) {
+
+
+        if (id == R.id.nav_acc) {
+            Intent i = new Intent(this, UpdateAccount.class);
+            this.startActivity(i);
 
         } else if (id == R.id.nav_backup) {
 
@@ -129,22 +167,24 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_logout){
 
-            // Logs the user out and clears the Shared Preference
+            // Clears the Shared Preference
             AccountSharedPref.logoutUser(this);
 
             Intent homepage = new Intent(this, LoginActivity.class);
             this.startActivity(homepage);
-            int accountId = AccountSharedPref.loadAccountId(mContext);
 
-            //TEMP CODE, DISPLAYS CURRENT ACCOUNT ID
-            Toast.makeText(HomeActivity.this,
-                    "Account Id: " + accountId, Toast.LENGTH_LONG).show();
+        } else if (id == R.id.nav_home){
 
-            //this.finish();
+            //Redirect to HomeActivity
+            Intent intent = new Intent(mContext, HomeActivity.class);
+            startActivity(intent);
         }
 
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //drawer.closeDrawer(GravityCompat.START);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
+
+
 }
