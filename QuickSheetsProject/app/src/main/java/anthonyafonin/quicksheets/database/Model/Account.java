@@ -25,6 +25,8 @@ public class Account {
         this.email = email;
     }
 
+
+
     // Setters
     public void setId(int id){
         this.id = id;

@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import anthonyafonin.quicksheets.AccountSharedPref;
+import anthonyafonin.quicksheets.HomeActivity;
 import anthonyafonin.quicksheets.LoginActivity;
 import anthonyafonin.quicksheets.R;
 import anthonyafonin.quicksheets.database.DatabaseHelper;
@@ -56,12 +58,7 @@ public class Register extends Activity {
                     @Override
                     public void onClick(View v) {
 
-                        // Create an Instance of an Account from user input
-                        acc = new Account(firstNameText.getText().toString(),
-                                middleNameText.getText().toString(),
-                                lastNameText.getText().toString(),
-                                phoneText.getText().toString(),
-                                emailText.getText().toString());
+
                         do{
                             try{
                                 //Breaks if all required fields are not filled
@@ -84,12 +81,25 @@ public class Register extends Activity {
                                     break;
                                 }
 
+                                // Create an Instance of an Account from user input
+                                acc = new Account(firstNameText.getText().toString(),
+                                        middleNameText.getText().toString(),
+                                        lastNameText.getText().toString(),
+                                        phoneText.getText().toString(),
+                                        emailText.getText().toString());
+
                                 // Attempt to insert data into SQLite database
                                 db.addAccount(acc);
 
-                                //Redirects to login activity if successful
-                                Intent i = new Intent(v.getContext(), LoginActivity.class);
-                                startActivity(i);
+                                //Get Account Id
+                                int accountId = db.getAccountIdByEmail(emailText.getText().toString().trim());
+
+                                //Store the retrieved SQLite Account ID in a shared preference
+                                AccountSharedPref.saveId(Register.this, accountId);
+
+                                //Redirect to HomeActivity
+                                Intent intent = new Intent(v.getContext(), HomeActivity.class);
+                                startActivity(intent);
 
                                 Toast.makeText(Register.this,
                                         "Account Created", Toast.LENGTH_LONG).show();

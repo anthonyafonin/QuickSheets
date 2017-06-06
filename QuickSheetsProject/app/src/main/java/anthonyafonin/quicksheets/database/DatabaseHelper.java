@@ -146,6 +146,25 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.close(); // Closing database connection
     }
 
+    // Get single Account
+    public Account getAccount(int accountId){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_ACCOUNTS, new String[] {
+                        ACCOUNT_FIRST, ACCOUNT_MIDDLE, ACCOUNT_LAST, ACCOUNT_PHONE, ACCOUNT_EMAIL},
+                ACCOUNT_ID + "=?", new String[] { String.valueOf(accountId) }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Account acc = new Account(cursor.getString(0),
+                cursor.getString(1), cursor.getString(2), cursor.getString(3),
+                cursor.getString(4));
+
+        cursor.close();
+        return acc;
+    }
+
+
     // Get Account id from email
     public int getAccountIdByEmail(String email){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -162,9 +181,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             cursor.moveToFirst();
         int accountId = Integer.parseInt(cursor.getString(0));
 
-        //Account account = new Account(Integer.parseInt(cursor.getString(0)),
-         //       cursor.getString(1),cursor.getString(2),cursor.getString(3),
-          //      cursor.getString(4),cursor.getString(5));
 
         cursor.close();
         return accountId;
@@ -183,11 +199,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String[] selectionArgs = {email};
 
         // query user table with condition
-        /**
-         * Here query function is used to fetch records from user table this function works like we use sql query.
-         * SQL query equivalent to this query function is
-         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com';
-         */
         Cursor cursor = db.query(TABLE_ACCOUNTS, //Table to query
                 columns,                    //columns to return
                 selection,                  //columns for the WHERE clause
@@ -259,7 +270,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     // Delete single Account
-    public void deleteAccount(Account account, int accountId){
+    public void deleteAccount(int accountId){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ACCOUNTS, ACCOUNT_ID + " = ?",
                 new String[] { String.valueOf(accountId) });
@@ -288,12 +299,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     // Get single Timesheet
-    public Timesheet getTimesheet(int accountId){
+    public Timesheet getTimesheet(int tsheetId){
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_TIME_SHEET, new String[] {
-                TIMESHEET_ID, TIMESHEET_TITLE, TIMESHEET_START, TIMESHEET_END, TIMESHEET_YEAR },
-                TIMESHEET_ID + "=?", new String[] { String.valueOf(accountId) }, null, null, null, null);
+                TIMESHEET_TITLE, TIMESHEET_START, TIMESHEET_END, TIMESHEET_YEAR, TIMESHEET_ID},
+                TIMESHEET_ID + "=?", new String[] { String.valueOf(tsheetId) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -329,13 +340,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 tsheet.setYearDate(Integer.parseInt(cursor.getString(4)));
                 tsheet.setAccountId(Integer.parseInt(cursor.getString(5)));
 
-                //Add Sheet to list
-                int sheetID = cursor.getInt(cursor.getColumnIndex(TIMESHEET_ID));
-                String title = cursor.getString(cursor.getColumnIndex(TIMESHEET_TITLE));
-                String start = cursor.getString(cursor.getColumnIndex(TIMESHEET_START));
-                String end = cursor.getString(cursor.getColumnIndex(TIMESHEET_END));
-
-                //title += "\n\tDates: " + start + " - " + end;
                 tsheetList.add(tsheet);
 
             }while(cursor.moveToNext());
@@ -348,11 +352,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Get Timesheet count
     public int getTimesheetCount(int accountId){
-        String countQuery = "SELECT  * FROM " + TABLE_TIME_SHEET + " WHERE " + TIMESHEET_ACCOUNT_ID +  " = "
-        + accountId;
+        String countQuery = "SELECT  * FROM " + TABLE_TIME_SHEET
+                + " WHERE " + TIMESHEET_ACCOUNT_ID +  " = " + accountId;
+
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
-
 
         // return count
         return cursor.getCount();
@@ -387,7 +391,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     //--------------------------------------------------
 
     // Add Entry
-    public void addEntry(TimesheetEntry entry){
+    public void addEntry(TimesheetEntry entry, int sheetId){
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Adding Account attribute values
@@ -397,6 +401,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(ENTRY_DESCRIPTION, entry.getDescription());
         values.put(ENTRY_HOURS, entry.getEntryHours());
         values.put(ENTRY_DATE, entry.getEntryDate());
+        values.put(ENTRY_TIMESHEET_ID, sheetId);
 
         // Inserting Row
         db.insert(TABLE_TS_ENTRY, null, values);
@@ -404,31 +409,32 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     // Get single Entry
-    public TimesheetEntry getEntry(int id){
+    public TimesheetEntry getEntry(int entryId){
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_TS_ENTRY, new String[] {
-                        ENTRY_ID, ENTRY_JOB_TYPE, ENTRY_CUSTOMER, ENTRY_DESCRIPTION,
-                        ENTRY_HOURS, ENTRY_DATE },
-                ENTRY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
+                        ENTRY_JOB_TYPE, ENTRY_CUSTOMER, ENTRY_DESCRIPTION,
+                        ENTRY_HOURS, ENTRY_DATE, ENTRY_ID },
+                ENTRY_ID + "=?", new String[] { String.valueOf(entryId) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        TimesheetEntry entry = new TimesheetEntry(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3),
-                Integer.parseInt(cursor.getString(4)),cursor.getString(5));
+        TimesheetEntry entry = new TimesheetEntry(cursor.getString(0),
+                cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3)),
+                cursor.getString(4),Integer.parseInt(cursor.getString(5)));
 
         cursor.close();
         return entry;
     }
 
     // Get all Entrys
-    public List<TimesheetEntry> getAllEntrys(){
+    public List<TimesheetEntry> getAllEntrys(int sheetId){
         //Create Timesheet list
         List<TimesheetEntry> entryList = new ArrayList<TimesheetEntry>();
 
         //Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_TS_ENTRY;
+        String selectQuery = "SELECT * FROM " + TABLE_TS_ENTRY + " WHERE " + ENTRY_TIMESHEET_ID +
+                " = " + sheetId + " ORDER BY " + ENTRY_ID + " DESC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -453,11 +459,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     // Get Entry count
-    public int getEntryCount(){
-        String countQuery = "SELECT  * FROM " + TABLE_TS_ENTRY;
+    public int getEntryCount(int sheetId){
+        String countQuery = "SELECT  * FROM " + TABLE_TS_ENTRY + " WHERE " + ENTRY_TIMESHEET_ID
+                +  " = " + sheetId;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
 
         // return count
         return cursor.getCount();

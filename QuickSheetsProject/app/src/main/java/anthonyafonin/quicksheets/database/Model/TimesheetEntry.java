@@ -17,14 +17,14 @@ public class TimesheetEntry {
         this.entryDate = entryDate;
     }
 
-    public TimesheetEntry(int id, String jobType, String customer,
-                          String description, int entryHours, String entryDate) {
-        this.id = id;
+    public TimesheetEntry(String jobType, String customer,
+                          String description, int entryHours, String entryDate, int tsheetId) {
         this.jobType = jobType;
         this.customer = customer;
         this.description = description;
         this.entryHours = entryHours;
         this.entryDate = entryDate;
+        this.tsheetId = tsheetId;
     }
 
     public TimesheetEntry(int id, String jobType, String customer,
@@ -36,6 +36,10 @@ public class TimesheetEntry {
         this.entryHours = entryHours;
         this.entryDate = entryDate;
         this.tsheetId = tsheetId;
+    }
+
+    public String toString() {
+        return this.description;
     }
 
     // Setters
@@ -84,7 +88,7 @@ public class TimesheetEntry {
         return this.description;
     }
 
-    public double getEntryHours(){
+    public int getEntryHours(){
         return this.entryHours;
     }
 

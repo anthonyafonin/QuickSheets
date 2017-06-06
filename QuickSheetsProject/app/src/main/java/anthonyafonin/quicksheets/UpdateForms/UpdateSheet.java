@@ -1,4 +1,4 @@
-package anthonyafonin.quicksheets.AddForms;
+package anthonyafonin.quicksheets.UpdateForms;
 
 
 import android.content.Context;
@@ -20,42 +20,60 @@ import anthonyafonin.quicksheets.database.DatabaseHelper;
 import anthonyafonin.quicksheets.database.Model.Account;
 import anthonyafonin.quicksheets.database.Model.Timesheet;
 
+import static anthonyafonin.quicksheets.Fragments.Sheets.timesheetId;
 
-public class AddSheetForm extends AppCompatActivity {
 
-    private EditText titleText, startDateText, endDateText;
+public class UpdateSheet extends AppCompatActivity {
+
+    private EditText titleText, startDateText, endDateText, yearText;
     DatabaseHelper db = new DatabaseHelper(this);
-    Button btnSubmit;
+    Button btnSubmit, btnCancel;
+    Account acc;
     Timesheet sheet;
     Context context = this;
     int accountId, year;
+    String title, startDate, endDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_sheet);
+        setContentView(R.layout.update_sheet);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         // Loads account id from shared pref
         accountId = AccountSharedPref.loadAccountId(context);
 
         // Assigns buttons
-        btnSubmit = (Button)(findViewById(R.id.btnSubmitSheet));
+        btnSubmit = (Button)(findViewById(R.id.btnUpdateSheet));
 
         //Assign variables to text fields
-        titleText = (EditText) findViewById(R.id.txtTitle);
-        startDateText = (EditText) findViewById(R.id.txtStartDate);
-        endDateText = (EditText) findViewById(R.id.txtEndDate);
+        titleText = (EditText) findViewById(R.id.txtTitleUpdate);
+        startDateText = (EditText) findViewById(R.id.txtStartUpdate);
+        endDateText = (EditText) findViewById(R.id.txtEndUpdate);
+
+        // Get Selected Timesheet and returns values into editText
+        sheet = db.getTimesheet(timesheetId);
+        title = sheet.getSheetTitle();
+        startDate = sheet.getStartDate();
+        endDate = sheet.getEndDate();
+
+        // Displays values in editText fields and moves cursor to the right
+        titleText.setText(title);
+        titleText.setSelection(titleText.getText().length());
+        startDateText.setText(startDate);
+        startDateText.setSelection(startDateText.getText().length());
+        endDateText.setText(endDate);
+        endDateText.setSelection(endDateText.getText().length());
+
         year =  Calendar.getInstance().get(Calendar.YEAR);
 
-        // Action listener for button submit
-        createSheet();
-
+        // Action listener for button save
+        updateSheet();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,12 +84,11 @@ public class AddSheetForm extends AppCompatActivity {
     }
 
     // ActionListener for Register Button
-    public void createSheet() {
+    public void updateSheet() {
         btnSubmit.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
 
                         do{
                             try{
@@ -82,7 +99,7 @@ public class AddSheetForm extends AppCompatActivity {
                                     || endDateText.getText().toString().matches(""))
                                 {
                                     Toast.makeText(
-                                        AddSheetForm.this, "Please Fill In Required Fields",
+                                        UpdateSheet.this, "Please Fill In Required Fields",
                                         Toast.LENGTH_LONG).show();
                                     break;
                                 }
@@ -95,15 +112,15 @@ public class AddSheetForm extends AppCompatActivity {
                                         year, accountId);
 
                                 // Attempt to insert data into SQLite database
-                                db.addTimesheet(sheet, accountId);
+                                db.updateTimesheet(sheet, timesheetId);
 
                                 killActivity();
 
-                                Toast.makeText(AddSheetForm.this,
-                                        "Timesheet Created", Toast.LENGTH_LONG).show();
+                                Toast.makeText(UpdateSheet.this,
+                                        "Timesheet Saved", Toast.LENGTH_LONG).show();
                             }
                             catch(Exception e){
-                                Toast.makeText(AddSheetForm.this,
+                                Toast.makeText(UpdateSheet.this,
                                         "Error: Invalid Field Types", Toast.LENGTH_LONG).show();
                             }
 
@@ -112,7 +129,7 @@ public class AddSheetForm extends AppCompatActivity {
                 });
     }
 
-    // Closes current activity and refreshes entry fragment
+    // Closes current activity and refreshes sheet fragment
     public void killActivity()
     {
         finish();

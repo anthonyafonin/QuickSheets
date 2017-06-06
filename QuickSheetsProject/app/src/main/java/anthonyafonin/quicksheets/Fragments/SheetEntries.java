@@ -1,15 +1,12 @@
 package anthonyafonin.quicksheets.Fragments;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.app.Fragment;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +14,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import anthonyafonin.quicksheets.AccountSharedPref;
-import anthonyafonin.quicksheets.AddEntryForm;
-import anthonyafonin.quicksheets.AddSheetForm;
+import anthonyafonin.quicksheets.AddForms.AddEntryForm;
 import anthonyafonin.quicksheets.HomeActivity;
 import anthonyafonin.quicksheets.R;
+import anthonyafonin.quicksheets.UpdateForms.UpdateEntry;
 import anthonyafonin.quicksheets.database.DatabaseHelper;
-import anthonyafonin.quicksheets.database.Model.Timesheet;
+import anthonyafonin.quicksheets.database.Model.TimesheetEntry;
 
 import static anthonyafonin.quicksheets.Fragments.Sheets.timesheetId;
 import static anthonyafonin.quicksheets.Fragments.Sheets.timesheetTitle;
@@ -37,6 +33,10 @@ public class SheetEntries extends Fragment {
     Button addSheet;
     DatabaseHelper db;
     int accountId;
+    public static int entryId;
+    public static String entryDate;
+    ListView listContent;
+    TimesheetEntry entry;
 
     @Override
     public View onCreateView(final LayoutInflater inflater,
@@ -48,23 +48,9 @@ public class SheetEntries extends Fragment {
         accountId = AccountSharedPref.loadAccountId(getActivity());
         ((HomeActivity) getActivity()).setActionBarTitle(timesheetTitle);
 
-        Toast.makeText(getActivity(),
-                "Sheet id: " + timesheetId, Toast.LENGTH_LONG).show();
+        listContent = (ListView) rootView.findViewById(R.id.entryList);
 
 
-        // EXPERIMENT TOOLBAR TITLE LISTENER -- BACK --
-//        final int abTitleId = getResources().getIdentifier(timesheetTitle, "id", "android");
-//        rootView.findViewById(abTitleId).setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                getFragmentManager().popBackStackImmediate();
-//            }
-//        });
-
-        ///////////////////////////////////////////
-        // Action listener for add sheet button
-        ///////////////////////////////////////////
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.addEntry);
         fab.setOnClickListener(new View.OnClickListener() {
 
@@ -75,23 +61,17 @@ public class SheetEntries extends Fragment {
         });
 
 
-        // Defines listview in layout and displays timesheets
-        final ListView listContent = (ListView) rootView.findViewById(R.id.sheetList);
-        ArrayAdapter adapter = new ArrayAdapter(
-                getActivity(), android.R.layout.simple_list_item_1,
-                db.getAllEntrys());
-        //listContent.setAdapter(adapter);
-
-       /* listContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(
                     AdapterView<?> parent, View view, int position, long id) {
 
-                Timesheet sheet = (Timesheet) listContent.getItemAtPosition(position);
+                entry = (TimesheetEntry) listContent.getItemAtPosition(position);
+                entryDate = entry.getEntryDate();
+                entryId = entry.getId();
 
-                Toast.makeText(getActivity(),
-                        "Sheet id: " + sheet.getId(), Toast.LENGTH_LONG).show();
             }
         });
+
 
         listContent.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -99,19 +79,74 @@ public class SheetEntries extends Fragment {
                     AdapterView<?> arg0, View arg1, int position, long id) {
 
                 // Gets the timesheet id and deletes selected
-                Timesheet sheet = (Timesheet) listContent.getItemAtPosition(position);
-                db.deleteTimesheet(sheet, sheet.getId());
+                entry = (TimesheetEntry) listContent.getItemAtPosition(position);
+                entryDate = entry.getEntryDate();
+                entryId = entry.getId();
 
-                // Refreshes the adapter listview
-                ArrayAdapter adapter = new ArrayAdapter(
-                        getActivity(), android.R.layout.simple_list_item_1,
-                        db.getAllTimesheets(accountId));
-                listContent.setAdapter(adapter);
+                createDialog();
 
                 return true;
             }
-        });*/
+        });
+
         return rootView;
+    }
+
+    // Refreshes Adapter list onStart
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // refreshes fragment and displays entries
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity(), android.R.layout.simple_list_item_1,
+                db.getAllEntrys(timesheetId));
+        listContent.setAdapter(adapter);
+    }
+
+
+    // Creates dialog when item is click and held, update/delete
+    public void createDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Select an option")
+                .setCancelable(true)
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage("Are you sure you want to delete?")
+                                .setCancelable(false)
+                                .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                        dialog.cancel();
+                                    }
+                                })
+                                .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                        db.deleteEntry(entry, entry.getId());
+
+                                        // Refreshes the adapter listview
+                                        ArrayAdapter adapter = new ArrayAdapter(
+                                                getActivity(), android.R.layout.simple_list_item_1,
+                                                db.getAllEntrys(timesheetId));
+                                        listContent.setAdapter(adapter);
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }
+                })
+                .setNegativeButton("Update", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent i = new Intent(getActivity(), UpdateEntry.class);
+                        startActivity(i);
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 }

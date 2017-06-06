@@ -27,7 +27,7 @@ public class AddEntryForm extends AppCompatActivity {
     Button btnSubmitEntry;
     TimesheetEntry entry;
     Context context = this;
-    int accountId;
+    int accountId, hours;
 
 
     @Override
@@ -72,16 +72,8 @@ public class AddEntryForm extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        int hours = 0;
 
-                        // Create an Instance of an entry from user input
-                        entry = new TimesheetEntry(
-                                jobType.getText().toString(),
-                                customer.getText().toString(),
-                                description.getText().toString(),
-                                hours,
-                                dateText.getText().toString(),
-                                timesheetId);
+
                         do{
                             try{
                                 //Breaks if all required fields are not filled
@@ -106,6 +98,15 @@ public class AddEntryForm extends AppCompatActivity {
                                             Toast.LENGTH_LONG).show();
                                     break;
                                 }
+
+                                // Create an Instance of an entry from user input
+                                entry = new TimesheetEntry(
+                                        jobType.getText().toString(),
+                                        customer.getText().toString(),
+                                        description.getText().toString(),
+                                        hours,
+                                        dateText.getText().toString(),
+                                        timesheetId);
 
                                 // Attempt to insert data into SQLite database
                                 db.addEntry(entry, timesheetId);
