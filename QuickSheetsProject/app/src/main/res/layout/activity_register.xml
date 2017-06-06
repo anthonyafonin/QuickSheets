@@ -42,12 +42,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_first"
-                    android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:textColorHint="#ffffffff"
                     android:textColor="#ffffffff"
                     android:layout_marginTop="5dp"
-                    android:backgroundTint="@android:color/transparent"/>
+                    android:backgroundTint="@android:color/transparent"
+                    android:inputType="text" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -60,12 +60,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_middle"
-                    android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:textColorHint="#ffffffff"
                     android:textColor="#ffffffff"
                     android:layout_marginTop="5dp"
-                    android:backgroundTint="@android:color/transparent"/>
+                    android:backgroundTint="@android:color/transparent"
+                    android:inputType="text" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_last"
-                    android:inputType="textEmailAddress"
+                    android:inputType="text"
                     android:maxLines="1"
                     android:textColorHint="#ffffffff"
                     android:textColor="#ffffffff"

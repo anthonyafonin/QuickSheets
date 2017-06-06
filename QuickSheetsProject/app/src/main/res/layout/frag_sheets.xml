@@ -28,7 +28,9 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             app:srcCompat="@android:drawable/ic_input_add"
-            app:backgroundTint="@color/qsGreen" />
+            app:backgroundTint="@color/qsGreen"
+            app:elevation="7dp"
+            android:background="@android:color/background_light" />
 
     </FrameLayout>
 

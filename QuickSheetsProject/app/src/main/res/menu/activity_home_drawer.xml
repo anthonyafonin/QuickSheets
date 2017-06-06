@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <group android:checkableBehavior="single"
-        android:id="@+id/nav_view">
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/nav_view"
+        tools:context="anthonyafonin.quicksheets.HomeActivity">
         <item
-            android:id="@+id/nav_import"
-            android:icon="@android:drawable/ic_menu_send"
-            android:title="Import" />
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="Home" />
         <item
-            android:id="@+id/nav_backup"
-            android:icon="@android:drawable/ic_menu_save"
-            android:title="Backup" />
+            android:id="@+id/nav_acc"
+            android:icon="@drawable/ic_perm_group_personal_info"
+            android:title="Account" />
+
+    </group>
+
+    <group
+        android:id="@+id/nav_view2"
+        tools:context="anthonyafonin.quicksheets.HomeActivity">
+
         <item
             android:id="@+id/nav_share"
             android:icon="@android:drawable/ic_menu_share"
             android:title="Share" />
+
+        <item
+            android:id="@+id/nav_backup"
+            android:icon="@android:drawable/ic_menu_save"
+            android:title="Backup" />
+
+    </group>
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/nav_view3"
+        tools:context="anthonyafonin.quicksheets.HomeActivity">
         <item
             android:id="@+id/nav_logout"
             android:title="Logout"

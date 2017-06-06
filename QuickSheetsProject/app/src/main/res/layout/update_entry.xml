@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="anthonyafonin.quicksheets.AddForms.AddEntryForm"
+        tools:context="anthonyafonin.quicksheets.UpdateForms.UpdateEntry"
         android:background="@android:color/background_light">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -48,7 +48,7 @@
                     android:layout_width="125dp" />
 
                 <EditText
-                    android:id="@+id/txtJobType"
+                    android:id="@+id/txtJobUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.75"
@@ -71,7 +71,7 @@
                     android:layout_width="125dp" />
 
                 <EditText
-                    android:id="@+id/txtCustomer"
+                    android:id="@+id/txtCustomerUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.75"
@@ -94,7 +94,7 @@
                     android:layout_width="125dp" />
 
                 <EditText
-                    android:id="@+id/txtDescription"
+                    android:id="@+id/txtDescUpdate"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.75"
                     android:ems="10"
@@ -118,7 +118,7 @@
                     android:layout_width="125dp" />
 
                 <EditText
-                    android:id="@+id/txtHours"
+                    android:id="@+id/txtHoursUpdate"
                     android:layout_height="wrap_content"
                     android:ems="5"
                     android:layout_weight="0.25"
@@ -143,7 +143,7 @@
                     android:layout_width="125dp" />
 
                 <EditText
-                    android:id="@+id/txtDate"
+                    android:id="@+id/txtDateUpdate"
                     android:layout_height="wrap_content"
                     android:ems="5"
                     android:layout_weight="0.25"
@@ -154,11 +154,11 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnSubmitEntry" style="?android:textAppearanceSmall"
+                android:id="@+id/btnUpdateEntry" style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Create Entry"
+                android:text="Save Entry"
                 android:textStyle="bold"
                 android:textColor="#ffffffff"
                 android:background="@color/qsGreen"

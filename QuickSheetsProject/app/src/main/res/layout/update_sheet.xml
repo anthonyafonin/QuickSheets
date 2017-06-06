@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="anthonyafonin.quicksheets.AddForms.AddEntryForm"
+        tools:context="anthonyafonin.quicksheets.UpdateForms.UpdateSheet"
         android:background="@android:color/background_light">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -41,14 +41,14 @@
 
                 <TextView
                     android:layout_height="wrap_content"
-                    android:text="Job Type"
+                    android:text="Title"
                     android:gravity="right"
                     android:paddingRight="10dp"
                     android:textSize="16sp"
                     android:layout_width="125dp" />
 
                 <EditText
-                    android:id="@+id/txtJobType"
+                    android:id="@+id/txtTitleUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.75"
@@ -64,14 +64,14 @@
 
                 <TextView
                     android:layout_height="wrap_content"
-                    android:text="Customer"
+                    android:text="Start Date"
                     android:gravity="right"
                     android:paddingRight="10dp"
                     android:textSize="16sp"
                     android:layout_width="125dp" />
 
                 <EditText
-                    android:id="@+id/txtCustomer"
+                    android:id="@+id/txtStartUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.75"
@@ -87,78 +87,28 @@
 
                 <TextView
                     android:layout_height="wrap_content"
-                    android:text="Description"
+                    android:text="End Date"
                     android:gravity="right"
                     android:paddingRight="10dp"
                     android:textSize="16sp"
                     android:layout_width="125dp" />
 
                 <EditText
-                    android:id="@+id/txtDescription"
+                    android:id="@+id/txtEndUpdate"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.75"
                     android:ems="10"
                     android:layout_width="15dp"
                     android:layout_marginRight="50dp"
                     android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Hours"
-                    android:gravity="right"
-                    android:paddingRight="10dp"
-                    android:textSize="16sp"
-                    android:layout_width="125dp" />
-
-                <EditText
-                    android:id="@+id/txtHours"
-                    android:layout_height="wrap_content"
-                    android:ems="5"
-                    android:layout_weight="0.25"
-                    android:layout_width="15dp"
-                    android:layout_marginRight="50dp"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Date"
-                    android:gravity="right"
-                    android:paddingRight="10dp"
-                    android:textSize="16sp"
-                    android:layout_width="125dp" />
-
-                <EditText
-                    android:id="@+id/txtDate"
-                    android:layout_height="wrap_content"
-                    android:ems="5"
-                    android:layout_weight="0.25"
-                    android:layout_width="15dp"
-                    android:layout_marginRight="50dp"
-                    android:textSize="16sp" />
-
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnSubmitEntry" style="?android:textAppearanceSmall"
+                android:id="@+id/btnUpdateSheet" style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Create Entry"
+                android:text="Save TimeSheet"
                 android:textStyle="bold"
                 android:textColor="#ffffffff"
                 android:background="@color/qsGreen"
