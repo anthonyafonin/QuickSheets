@@ -24,7 +24,7 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Register"
+            android:name=".AddForms.Register"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -32,13 +32,25 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddSheetForm"
+            android:name=".AddForms.AddSheetForm"
             android:label="@string/prompt_new_sheet"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".AddEntryForm"
+            android:name=".AddForms.AddEntryForm"
             android:label="New Entry"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UpdateForms.UpdateSheet"
+            android:label="Update Sheet"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UpdateForms.UpdateAccount"
+            android:label="Update Account"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UpdateForms.UpdateEntry"
+            android:label="Update Entry"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
