@@ -1,18 +1,21 @@
+/*
+ * Programmer: Afonin, Anthony
+ * Chemeketa Community College
+ * Created: Tuesday, June 13
+ * Assignment: CIS234J, Final Project - QuickSheets
+ * File Name: EntryDetails.java
+ */
+
+/**
+ * An application that manages timesheet using a sqlite database.
+ */
 package anthonyafonin.quicksheets;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.NavUtils;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import anthonyafonin.quicksheets.database.DatabaseHelper;
@@ -20,9 +23,12 @@ import anthonyafonin.quicksheets.database.Model.TimesheetEntry;
 
 import static anthonyafonin.quicksheets.Fragments.SheetEntries.entryId;
 
-
+/**
+ * Displays a detailed view of a selected Timesheet Entry
+ */
 public class EntryDetails extends AppCompatActivity {
 
+    // Declare variables and objects.
     Context context = this;
     private TextView lblJob, lblCustomer, lblDescription, lblHours, lblDate;
     DatabaseHelper db = new DatabaseHelper(this);
@@ -30,6 +36,11 @@ public class EntryDetails extends AppCompatActivity {
     double entryHours;
     String jobType, customer, description, dateText, hours;
 
+    /**
+     * The onCreate method of the activity.
+     * Puts the activity together.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +75,12 @@ public class EntryDetails extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        // Back arrow action listener
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            /**
+             * Closes current Activity
+             * @param v Current View.
+             */
             @Override
             public void onClick(View v) {
                 context.finish();

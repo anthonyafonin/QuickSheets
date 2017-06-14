@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Programmer: Afonin, Anthony
+    Chemeketa Community College
+    Date: Tuesday, June 13
+    Class: CIS234J
+    Assignment: Final Project - QuickSheets
+    File Name: activity_main.xml
+    Description: The layout of the splash screen.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

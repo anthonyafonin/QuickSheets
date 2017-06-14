@@ -1,3 +1,14 @@
+/*
+ * Programmer: Afonin, Anthony
+ * Chemeketa Community College
+ * Created: Tuesday, June 13
+ * Assignment: CIS234J, Final Project - QuickSheets
+ * File Name: DatabaseHelper.java
+ */
+
+/**
+ * Contains databaseHelper methods and entity model classes
+ */
 package anthonyafonin.quicksheets.database;
 
 import android.content.ContentValues;
@@ -5,17 +16,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQueryBuilder;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-// Import Database Model Classes
 import anthonyafonin.quicksheets.database.Model.Account;
 import anthonyafonin.quicksheets.database.Model.Timesheet;
 import anthonyafonin.quicksheets.database.Model.TimesheetEntry;
 
+/**
+ * The database helper class that handles all SQL statements.
+ */
 public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Logcat tag
@@ -103,11 +114,18 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             + TABLE_TIME_SHEET + "(" + TIMESHEET_ID + ")"
             + ")";
 
+    /**
+     * Constructor.
+     * @param context Context.
+     */
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        //SQLiteDatabase db = this.getWritableDatabase();
     }
 
+    /**
+     * Creates databse onCreate using concatenated static final Strings.
+     * @param db The database.
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -117,6 +135,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_TABLE_TS_ENTRY);
     }
 
+    /**
+     * Creates tables if non existence.
+     * @param db The database.
+     * @param oldVersion Old version of database.
+     * @param newVersion New version of database.
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + CREATE_TABLE_ACCOUNT);
@@ -128,7 +152,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     // Account Create, Read, Update, Delete Operations
     //--------------------------------------------------
 
-    // Add Account
+    /**
+     * Add Account.
+     * @param account Account object.
+     */
     public void addAccount(Account account){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -146,7 +173,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.close(); // Closing database connection
     }
 
-    // Get single Account
+    /**
+     * Get Single Account.
+     * @param accountId Account Id.
+     * @return Account information of Account Id.
+     */
     public Account getAccount(int accountId){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -164,8 +195,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return acc;
     }
 
-
-    // Get Account id from email
+    /**
+     * Get Account id from email
+     * @param email Email.
+     * @return The account Id matching the email address.
+     */
     public int getAccountIdByEmail(String email){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -186,6 +220,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return accountId;
     }
 
+    /**
+     * Checks to see if email already exists.
+     * @param email Email.
+     * @return Boolean.
+     */
     public boolean checkAccount(String email) {
 
         // array of columns to fetch
@@ -200,12 +239,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         // query user table with condition
         Cursor cursor = db.query(TABLE_ACCOUNTS, //Table to query
-                columns,                    //columns to return
-                selection,                  //columns for the WHERE clause
-                selectionArgs,              //The values for the WHERE clause
-                null,                       //group the rows
-                null,                      //filter by row groups
-                null);                      //The sort order
+                columns,                         //columns to return
+                selection,                       //columns for the WHERE clause
+                selectionArgs,                   //The values for the WHERE clause
+                null,                            //group the rows
+                null,                            //filter by row groups
+                null);                           //The sort order
         int cursorCount = cursor.getCount();
         cursor.close();
         db.close();
@@ -216,7 +255,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return false;
     }
 
-    //Get all Accounts
+    /**
+     * Get All Accounts.
+     * @return List of all Accounts.
+     */
     public List<Account> getAllAccounts(){
 
         //Create account list
@@ -247,12 +289,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return accountList;
     }
 
-    // Get Account count
-    public int getAccountCount(){
-        return 0;
-    }
-
-    // Update single Account
+    /**
+     * Update Account.
+     * @param account Account object.
+     * @param accountId Account Id.
+     * @return Update SQL Statement.
+     */
     public int updateAccount(Account account, int accountId){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -269,7 +311,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 new String[] { String.valueOf(accountId) });
     }
 
-    // Delete single Account
+    /**
+     * Delete Single Account.
+     * @param accountId Account Id.
+     */
     public void deleteAccount(int accountId){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ACCOUNTS, ACCOUNT_ID + " = ?",
@@ -281,7 +326,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     // TimeSheet CRUD Operations
     //--------------------------------------------------
 
-    // Add Timesheet
+    /**
+     * Add Timesheet.
+     * @param tsheet Timesheet Object.
+     * @param accountId Account Id.
+     */
     public void addTimesheet(Timesheet tsheet, int accountId){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -298,7 +347,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.close(); // Closing database connection
     }
 
-    // Get single Timesheet
+    /**
+     * Get single Timesheet.
+     * @param tsheetId Timesheet Object.
+     * @return Timesheet Object.
+     */
     public Timesheet getTimesheet(int tsheetId){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -316,7 +369,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return tsheet;
     }
 
-    // Get all Timesheets
+    /**
+     * Get All Timesheets.
+     * @param accountId Account Id.
+     * @return List of all Timesheets of Account Id.
+     */
     public List<Timesheet> getAllTimesheets(int accountId){
 
         //Create Timesheet list
@@ -350,7 +407,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return tsheetList;
     }
 
-    // Get Timesheet count
+    /**
+     * Get Timesheet Count.
+     * @param accountId Account Id.
+     * @return Timesheet Count.
+     */
     public int getTimesheetCount(int accountId){
         String countQuery = "SELECT  * FROM " + TABLE_TIME_SHEET
                 + " WHERE " + TIMESHEET_ACCOUNT_ID +  " = " + accountId;
@@ -362,7 +423,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursor.getCount();
     }
 
-    // Update single Timesheet
+    /**
+     * Update Single Timesheet.
+     * @param tsheet Timesheet Object.
+     * @param tsheetId Timesheet Id.
+     * @return Update Timesheet SQL Statement.
+     */
     public int updateTimesheet(Timesheet tsheet, int tsheetId){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -378,7 +444,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 new String[] { String.valueOf(tsheetId) });
     }
 
-    // Delete single Timesheet
+    /**
+     * Delete Single Timesheet.
+     * @param tsheet Timesheet Object.
+     * @param tsheetId Timesheet Id.
+     */
     public void deleteTimesheet(Timesheet tsheet, int tsheetId){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_TIME_SHEET, TIMESHEET_ID + " = ?",
@@ -390,7 +460,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     // TimeSheet Entry CRUD Operations
     //--------------------------------------------------
 
-    // Add Entry
+    /**
+     * Add New Entry
+     * @param entry TimesheetEntry Object.
+     * @param sheetId Timesheet Id.
+     */
     public void addEntry(TimesheetEntry entry, int sheetId){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -408,7 +482,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.close(); // Closing database connection
     }
 
-    // Get single Entry
+    /**
+     * Get Single Entry
+     * @param entryId Entry Id.
+     * @return Entry Object.
+     */
     public TimesheetEntry getEntry(int entryId){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -427,7 +505,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return entry;
     }
 
-    // Get all Entrys
+    /**
+     * Get All Entries.
+     * @param sheetId Timesheet Id.
+     * @return List of Entries of Timesheet Id.
+     */
     public List<TimesheetEntry> getAllEntrys(int sheetId){
         //Create Timesheet list
         List<TimesheetEntry> entryList = new ArrayList<TimesheetEntry>();
@@ -458,7 +540,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return entryList;
     }
 
-    // Get Entry count
+    /**
+     * Get Entry Count.
+     * @param sheetId Timesheet Id.
+     * @return Entry Count of Timesheet Id.
+     */
     public int getEntryCount(int sheetId){
         String countQuery = "SELECT  * FROM " + TABLE_TS_ENTRY + " WHERE " + ENTRY_TIMESHEET_ID
                 +  " = " + sheetId;
@@ -469,7 +555,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursor.getCount();
     }
 
-    // Get Sheet Hours
+    /**
+     * Get Timesheet Hours.
+     * @param sheetId Timesheet Id.
+     * @return Sum of Entry Hours of Timesheet Id.
+     */
     public double getSheetHours(int sheetId){
 
         double sum = 0;
@@ -488,7 +578,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
 
-    // Update single Entry
+    /**
+     * Update Single Entry.
+     * @param entry Timesheet Entry Object.
+     * @param entryId Entry Id.
+     * @return Update Entry SQL Statement.
+     */
     public int updateEntry(TimesheetEntry entry, int entryId){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -505,7 +600,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 new String[] { String.valueOf(entryId) });
     }
 
-    // Delete single Entry
+    /**
+     * Delete Single Entry.
+     * @param entry Timesheet Entry Object.
+     * @param entryId Entry Id.
+     */
     public void deleteEntry(TimesheetEntry entry, int entryId){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_TS_ENTRY, ENTRY_ID + " = ?",

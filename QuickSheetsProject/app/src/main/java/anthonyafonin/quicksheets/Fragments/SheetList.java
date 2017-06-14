@@ -1,3 +1,14 @@
+/*
+ * Programmer: Afonin, Anthony
+ * Chemeketa Community College
+ * Created: Tuesday, June 13
+ * Assignment: CIS234J, Final Project - QuickSheets
+ * File Name: SheetList.java
+ */
+
+/**
+ * Contains List Fragments and custom listviews.
+ */
 package anthonyafonin.quicksheets.Fragments;
 
 import android.content.Context;
@@ -6,29 +17,40 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
 import anthonyafonin.quicksheets.R;
 import anthonyafonin.quicksheets.database.DatabaseHelper;
 import anthonyafonin.quicksheets.database.Model.Timesheet;
 
 
+/**
+ * Custom listview of Timesheets.
+ */
 public class SheetList extends ArrayAdapter{
+
+    // Declare variables and objects.
     private Context context;
     private ArrayList<Timesheet> sheet;
     String dateRange;
     DatabaseHelper db;
     double sheetHours;
 
+    /**
+     * The constructor of the class.
+     * @param context Context.
+     * @param textViewResourceId Index.
+     * @param sheets List of Timesheet Objects.
+     */
     public SheetList(Context context, int textViewResourceId, ArrayList sheets) {
         super(context,textViewResourceId, sheets);
 
         this.context = context;
         sheet = sheets;
-
     }
 
+    /**
+     * Anonymous inner class.
+     */
     private class ViewHolder
     {
         TextView textViewTitle;
@@ -36,6 +58,13 @@ public class SheetList extends ArrayAdapter{
         TextView textViewHours;
     }
 
+    /**
+     * Changes each list item of the custom list.
+     * @param position Index.
+     * @param convertView View.
+     * @param parent ViewGroup.
+     * @return The custom list into SheetEntries Fragment.
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
@@ -50,9 +79,9 @@ public class SheetList extends ArrayAdapter{
             holder.textViewRange = (TextView) convertView.findViewById(R.id.lblDateRange);
             holder.textViewHours = (TextView) convertView.findViewById(R.id.lblHours);
             convertView.setTag(holder);
-
         }
-        else {
+        else
+        {
             holder = (ViewHolder) convertView.getTag();
         }
 
@@ -67,7 +96,5 @@ public class SheetList extends ArrayAdapter{
         holder.textViewRange.setText("\t\t\t\t\t\t" + dateRange);
         holder.textViewHours.setText("Total: " + hours);
         return convertView;
-
-
     }
 }

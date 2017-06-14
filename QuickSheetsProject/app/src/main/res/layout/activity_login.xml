@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Programmer: Afonin, Anthony
+    Chemeketa Community College
+    Date: Tuesday, June 13
+    Class: CIS234J
+    Assignment: Final Project - QuickSheets
+    File Name: activity_login.xml
+    Description: The layout of the login activity.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"

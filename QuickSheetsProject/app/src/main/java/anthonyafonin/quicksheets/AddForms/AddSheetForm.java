@@ -1,5 +1,15 @@
-package anthonyafonin.quicksheets.AddForms;
+/*
+ * Programmer: Afonin, Anthony
+ * Chemeketa Community College
+ * Created: Tuesday, June 13
+ * Assignment: CIS234J, Final Project - QuickSheets
+ * File Name: AddSheetForm.java
+ */
 
+/**
+ * Contains all forms that create new table rows.
+ */
+package anthonyafonin.quicksheets.AddForms;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -21,30 +31,40 @@ import anthonyafonin.quicksheets.AccountSharedPref;
 import anthonyafonin.quicksheets.HomeActivity;
 import anthonyafonin.quicksheets.R;
 import anthonyafonin.quicksheets.database.DatabaseHelper;
-import anthonyafonin.quicksheets.database.Model.Account;
 import anthonyafonin.quicksheets.database.Model.Timesheet;
 
-
+/**
+ * Inserts a new Timesheet in the database.
+ */
 public class AddSheetForm extends AppCompatActivity {
 
-    private EditText titleText, startDateText, endDateText;
+    // Create database objects and context
     DatabaseHelper db = new DatabaseHelper(this);
-    Button btnSubmit;
     Timesheet sheet;
     Context context = this;
+
+    // Declare components
+    private EditText titleText, startDateText, endDateText;
+    private ImageView calStart, calEnd;
+    Button btnSubmit;
+
+    // Global Variables
     int accountId, year;
     public static int thisYear;
     private int mYear, mMonth, mDay;
     String monthString;
-    private ImageView calStart, calEnd;
 
+    /**
+     * The onCreate method of the activity.
+     * Puts the activity together.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_sheet);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         // Loads account id from shared pref
         accountId = AccountSharedPref.loadAccountId(context);
@@ -64,7 +84,12 @@ public class AddSheetForm extends AppCompatActivity {
         // Action listener for button submit, calender images
         createSheet();
 
+        // Displays datepicker
         calStart.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Displays datepicker
+             * @param v Current view
+             */
             @Override
             public void onClick(View v) {
                 // Get Current Date
@@ -73,10 +98,17 @@ public class AddSheetForm extends AppCompatActivity {
                 mMonth = c.get(Calendar.MONTH);
                 mDay = c.get(Calendar.DAY_OF_MONTH);
 
-
+                // Saves selected date
                 DatePickerDialog datePickerDialog = new DatePickerDialog(context,
                         new DatePickerDialog.OnDateSetListener() {
 
+                            /**
+                             * Action listener for datepicker.
+                             * @param view The view of the activity.
+                             * @param year Selected year.
+                             * @param month Selected Month.
+                             * @param dayOfMonth Selected Day.
+                             */
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int month, int dayOfMonth) {
@@ -90,7 +122,12 @@ public class AddSheetForm extends AppCompatActivity {
             }
         });
 
+        // Displays datepicker
         calEnd.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Displays datepicker
+             * @param v Current view
+             */
             @Override
             public void onClick(View v) {
                 // Get Current Date
@@ -99,10 +136,16 @@ public class AddSheetForm extends AppCompatActivity {
                 mMonth = c.get(Calendar.MONTH);
                 mDay = c.get(Calendar.DAY_OF_MONTH);
 
-
+                // Saves selected date
                 DatePickerDialog datePickerDialog = new DatePickerDialog(context,
                         new DatePickerDialog.OnDateSetListener() {
-
+                            /**
+                             * Action listener for datepicker.
+                             * @param view The view of the activity.
+                             * @param year Selected year.
+                             * @param month Selected Month.
+                             * @param dayOfMonth Selected Day.
+                             */
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int month, int dayOfMonth) {
@@ -118,7 +161,13 @@ public class AddSheetForm extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // Returns to previous page on click
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            /**
+             * Returns to homeActivity
+             * @param v Current view
+             */
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), HomeActivity.class);
@@ -127,13 +176,18 @@ public class AddSheetForm extends AppCompatActivity {
         });
     }
 
-    // ActionListener for Register Button
+    /**
+     * ActionListener for create Button
+     */
     public void createSheet() {
         btnSubmit.setOnClickListener(
                 new View.OnClickListener() {
+                    /**
+                     * Attempts to insert new Timesheet in Database
+                     * @param v Current view
+                     */
                     @Override
                     public void onClick(View v) {
-
 
                         do{
                             try{
@@ -174,7 +228,9 @@ public class AddSheetForm extends AppCompatActivity {
                 });
     }
 
-    // Closes current activity and refreshes entry fragment
+    /**
+     * Closes current activity and refreshes sheet fragment
+     */
     public void killActivity()
     {
         finish();

@@ -1,3 +1,12 @@
+<!--
+    Programmer: Afonin, Anthony
+    Chemeketa Community College
+    Date: Tuesday, June 13
+    Class: CIS234J
+    Assignment: Final Project - QuickSheets
+    File Name: strings.xml
+    Description: Various Strings used throughout the application
+-->
 <resources>
     <!-- Activity Titles -->
     <string name="title_activity_home">QuickSheets</string>

@@ -1,41 +1,55 @@
+/*
+ * Programmer: Afonin, Anthony
+ * Chemeketa Community College
+ * Created: Tuesday, June 13
+ * Assignment: CIS234J, Final Project - QuickSheets
+ * File Name: MainActivity.java
+ */
+
+/**
+ * An application that manages timesheet using a sqlite database.
+ */
 package anthonyafonin.quicksheets;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import anthonyafonin.quicksheets.database.DatabaseHelper;
-import anthonyafonin.quicksheets.R;
 
-import static anthonyafonin.quicksheets.database.DatabaseHelper.DATABASE_NAME;
-
+/**
+ * The Splash screen of the application
+ */
 public class MainActivity extends Activity {
 
+    // Declare variables and objects.
     DatabaseHelper db;
     int timeout = 3000; //Timer for splashscreen, 3 seconds.
     Intent homepage;
 
+    /**
+     * The onCreate method of the activity.
+     * Puts the activity together.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
+
         super.onCreate(savedInstanceState);
         getWindow().getAttributes().format = android.graphics.PixelFormat.RGBA_8888;
         setContentView(R.layout.activity_main);
 
         //Create Database Schema
-        //SQLiteDatabase db = new DatabaseHelper(this.getWritableDatabase());
         db = new DatabaseHelper(this);
         run();
     }
 
-    // Redirects to LoginActivity after 3 seconds.
+    /**
+     * Redirects to LoginActivity after 3 seconds.
+     */
     public void run(){
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {

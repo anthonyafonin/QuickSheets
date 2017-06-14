@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Programmer: Afonin, Anthony
+    Chemeketa Community College
+    Date: Tuesday, June 13
+    Class: CIS234J
+    Assignment: Final Project - QuickSheets
+    File Name: colors.xml
+    Description: Various colors used throughout the application.
+-->
 <resources>
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#303f9f</color>

@@ -1,20 +1,21 @@
+/*
+ * Programmer: Afonin, Anthony
+ * Chemeketa Community College
+ * Created: Tuesday, June 13
+ * Assignment: CIS234J, Final Project - QuickSheets
+ * File Name: HomeActivity.java
+ */
+
+/**
+ * An application that manages timesheets using a sqlite database.
+ */
 package anthonyafonin.quicksheets;
 
-
-import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,27 +24,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-
-import org.w3c.dom.Text;
 
 import anthonyafonin.quicksheets.Fragments.Sheets;
 import anthonyafonin.quicksheets.UpdateForms.UpdateAccount;
 import anthonyafonin.quicksheets.database.DatabaseHelper;
 import anthonyafonin.quicksheets.database.Model.Account;
 
-
+/**
+ * The home activity of the application. Contains a nav drawer and fragment container.
+ */
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    // Declare variables and objects.
     DatabaseHelper db = new DatabaseHelper(this);
     Context mContext = this;
     String name, email, phone;
@@ -52,6 +47,11 @@ public class HomeActivity extends AppCompatActivity
     NavigationView nav;
     private Menu menu;
 
+    /**
+     * The onCreate method of the activity.
+     * Puts the activity together.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,17 +72,12 @@ public class HomeActivity extends AppCompatActivity
         emailText = (TextView) header.findViewById(R.id.lblEmail);
         phoneText = (TextView) header.findViewById(R.id.lblPhone);
 
-
-        //menu.getItem(0).setIcon(R.drawable.ic_menu_sort_by_size);
-
-
         // Creates a fragment manager and shows sheets fragment
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Sheets f1 = new Sheets();
         ft.add(R.id.fragment_container, f1);
         ft.commit();
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -94,10 +89,17 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     * Sets the title of the action bar.
+     * @param title Title of action bar.
+     */
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
 
+    /**
+     * Handles the drawer closing.
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -108,6 +110,9 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Clears nav items and populates account info in nav header.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -128,31 +133,38 @@ public class HomeActivity extends AppCompatActivity
         phoneText.setText(phone);
     }
 
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     * @param menu Menu object.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         this.menu = menu;
-        getMenuInflater().inflate(R.menu.home, menu);
+        //getMenuInflater().inflate(R.menu.home, menu);
 
         return true;
     }
 
+    /**
+     * Handle action bar item clicks here.
+     * @param item Menuitem object.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Handle navigation view item clicks here.
+     * @param item Menuitem object.
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
+        int id = item.getItemId();
 
         if (id == R.id.nav_acc) {
             Intent i = new Intent(this, UpdateAccount.class);

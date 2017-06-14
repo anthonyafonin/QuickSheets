@@ -1,7 +1,16 @@
+/*
+ * Programmer: Afonin, Anthony
+ * Chemeketa Community College
+ * Created: Tuesday, June 13
+ * Assignment: CIS234J, Final Project - QuickSheets
+ * File Name: UpdateEntry.java
+ */
+
+/**
+ * Contains all forms that update existing table rows.
+ */
 package anthonyafonin.quicksheets.UpdateForms;
 
-
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,11 +25,13 @@ import anthonyafonin.quicksheets.database.DatabaseHelper;
 import anthonyafonin.quicksheets.database.Model.TimesheetEntry;
 
 import static anthonyafonin.quicksheets.Fragments.SheetEntries.entryId;
-import static anthonyafonin.quicksheets.Fragments.Sheets.timesheetId;
 
-
+/**
+ * Updates an existing Timesheet Entry in the database.
+ */
 public class UpdateEntry extends AppCompatActivity {
 
+    //Declare variables and objects.
     private EditText txtJob, txtCustomer, txtDescription, txtHours, txtDate;
     DatabaseHelper db = new DatabaseHelper(this);
     Button btnUpdateEntry;
@@ -29,6 +40,11 @@ public class UpdateEntry extends AppCompatActivity {
     double entryHours, dblhours;
     String jobType, customer, description, dateText, hours;
 
+    /**
+     * The onCreate method of the activity.
+     * Puts the activity together.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +95,9 @@ public class UpdateEntry extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            /**
+             * Closes activity.
+             */
             @Override
             public void onClick(View v) {
                 context.finish();
@@ -86,7 +105,9 @@ public class UpdateEntry extends AppCompatActivity {
         });
     }
 
-    // ActionListener for Register Button
+    /**
+     * ActionListener for Update Button
+     */
     public void updateEntry() {
         btnUpdateEntry.setOnClickListener(
                 new View.OnClickListener() {
@@ -147,7 +168,9 @@ public class UpdateEntry extends AppCompatActivity {
                 });
     }
 
-    // Closes current activity and refreshes entry fragment
+    /**
+     * Closes current activity and refreshes entry fragment
+     */
     public void killActivity()
     {
         finish();

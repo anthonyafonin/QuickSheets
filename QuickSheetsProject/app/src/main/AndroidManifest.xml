@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Programmer: Afonin, Anthony
+    Chemeketa Community College
+    Date: Tuesday, June 13
+    Class: CIS234J
+    Assignment: Final Project - QuickSheets
+    File Name: AndroidManifest.xml
+    Description: The manifest of the entire project.
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="anthonyafonin.quicksheets">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-
 
     <application
         android:allowBackup="true"

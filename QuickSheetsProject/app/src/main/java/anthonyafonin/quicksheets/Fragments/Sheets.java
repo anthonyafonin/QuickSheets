@@ -1,3 +1,14 @@
+/*
+ * Programmer: Afonin, Anthony
+ * Chemeketa Community College
+ * Created: Tuesday, June 13
+ * Assignment: CIS234J, Final Project - QuickSheets
+ * File Name: Sheets.java
+ */
+
+/**
+ * Contains List Fragments and custom listviews.
+ */
 package anthonyafonin.quicksheets.Fragments;
 
 import android.app.AlertDialog;
@@ -7,7 +18,6 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +26,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import anthonyafonin.quicksheets.AccountSharedPref;
@@ -34,9 +36,12 @@ import anthonyafonin.quicksheets.UpdateForms.UpdateSheet;
 import anthonyafonin.quicksheets.database.DatabaseHelper;
 import anthonyafonin.quicksheets.database.Model.Timesheet;
 
-
+/**
+ * Displays listview of TimesheetEntries inside fragment.
+ */
 public class Sheets extends Fragment {
 
+    // Declare variables and objects.
     Button addSheet;
     DatabaseHelper db;
     int accountId;
@@ -65,9 +70,6 @@ public class Sheets extends Fragment {
                 startActivity(i);
             }
         });
-
-
-
 
         // Defines listview in layout and displays timesheets
         listContent = (ListView) rootView.findViewById(R.id.sheetList);
@@ -110,6 +112,9 @@ public class Sheets extends Fragment {
         return rootView;
     }
 
+    /**
+     * Refreshes Adapter list onStart
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -121,6 +126,9 @@ public class Sheets extends Fragment {
 
     }
 
+    /**
+     * Creates dialog when item is click and held, update/delete
+     */
     public void createDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Select an option")
@@ -143,8 +151,11 @@ public class Sheets extends Fragment {
                                         db.deleteTimesheet(sheet, timesheetId);
 
                                         // Displays custom listView
-                                        sheets = (ArrayList<Timesheet>) db.getAllTimesheets(accountId);
-                                        SheetList customAdapter = new SheetList(getActivity(), R.layout.list_sheet, sheets);
+                                        sheets = (ArrayList<Timesheet>)
+                                                db.getAllTimesheets(accountId);
+                                        SheetList customAdapter =
+                                                new SheetList(getActivity(),
+                                                R.layout.list_sheet, sheets);
                                         listContent.setAdapter(customAdapter);
                                     }
                                 });
@@ -161,7 +172,6 @@ public class Sheets extends Fragment {
         AlertDialog alert = builder.create();
         alert.show();
     }
-
 }
 
 

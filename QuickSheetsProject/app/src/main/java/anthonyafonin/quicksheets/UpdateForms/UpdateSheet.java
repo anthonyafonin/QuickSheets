@@ -1,5 +1,15 @@
-package anthonyafonin.quicksheets.UpdateForms;
+/*
+ * Programmer: Afonin, Anthony
+ * Chemeketa Community College
+ * Created: Tuesday, June 13
+ * Assignment: CIS234J, Final Project - QuickSheets
+ * File Name: UpdateSheet.java
+ */
 
+/**
+ * Contains all forms that update existing table rows.
+ */
+package anthonyafonin.quicksheets.UpdateForms;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -27,9 +37,12 @@ import anthonyafonin.quicksheets.database.Model.Timesheet;
 import static anthonyafonin.quicksheets.AddForms.AddSheetForm.thisYear;
 import static anthonyafonin.quicksheets.Fragments.Sheets.timesheetId;
 
-
+/**
+ * Updates an existing Timesheet in the database.
+ */
 public class UpdateSheet extends AppCompatActivity {
 
+    //Declare variables and objects.
     private EditText titleText, startDateText, endDateText, yearText;
     private ImageView calStart, calEnd;
     DatabaseHelper db = new DatabaseHelper(this);
@@ -42,6 +55,11 @@ public class UpdateSheet extends AppCompatActivity {
     private int mYear, mMonth, mDay;
     String monthString;
 
+    /**
+     * The onCreate method of the activity.
+     * Puts the activity together.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +98,12 @@ public class UpdateSheet extends AppCompatActivity {
         // Action listener for button save
         updateSheet();
 
+        // Displays datepicker
         calStart.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Displays datepicker
+             * @param v Current view
+             */
             @Override
             public void onClick(View v) {
                 // Get Current Date
@@ -92,7 +115,13 @@ public class UpdateSheet extends AppCompatActivity {
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(context,
                         new DatePickerDialog.OnDateSetListener() {
-
+                            /**
+                             * Action listener for datepicker.
+                             * @param view The view of the activity.
+                             * @param year Selected year.
+                             * @param month Selected Month.
+                             * @param dayOfMonth Selected Day.
+                             */
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int month, int dayOfMonth) {
@@ -106,7 +135,12 @@ public class UpdateSheet extends AppCompatActivity {
             }
         });
 
+        // Displays Datepicker
         calEnd.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Displays datepicker
+             * @param v Current view
+             */
             @Override
             public void onClick(View v) {
                 // Get Current Date
@@ -115,10 +149,15 @@ public class UpdateSheet extends AppCompatActivity {
                 mMonth = c.get(Calendar.MONTH);
                 mDay = c.get(Calendar.DAY_OF_MONTH);
 
-
                 DatePickerDialog datePickerDialog = new DatePickerDialog(context,
                         new DatePickerDialog.OnDateSetListener() {
-
+                            /**
+                             * Action listener for datepicker.
+                             * @param view The view of the activity.
+                             * @param year Selected year.
+                             * @param month Selected Month.
+                             * @param dayOfMonth Selected Day.
+                             */
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int month, int dayOfMonth) {
@@ -144,7 +183,9 @@ public class UpdateSheet extends AppCompatActivity {
         });
     }
 
-    // ActionListener for Register Button
+    /**
+     * ActionListener for Update Button
+     */
     public void updateSheet() {
         btnSubmit.setOnClickListener(
                 new View.OnClickListener() {
@@ -190,7 +231,9 @@ public class UpdateSheet extends AppCompatActivity {
                 });
     }
 
-    // Closes current activity and refreshes sheet fragment
+    /**
+     * Closes current activity and refreshes entry fragment
+     */
     public void killActivity()
     {
         finish();

@@ -1,15 +1,23 @@
+/*
+ * Programmer: Afonin, Anthony
+ * Chemeketa Community College
+ * Created: Tuesday, June 13
+ * Assignment: CIS234J, Final Project - QuickSheets
+ * File Name: UpdateAccount.java
+ */
+
+/**
+ * Contains all forms that update existing table rows.
+ */
 package anthonyafonin.quicksheets.UpdateForms;
 
-
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,14 +28,13 @@ import anthonyafonin.quicksheets.LoginActivity;
 import anthonyafonin.quicksheets.R;
 import anthonyafonin.quicksheets.database.DatabaseHelper;
 import anthonyafonin.quicksheets.database.Model.Account;
-import anthonyafonin.quicksheets.database.Model.Timesheet;
-import anthonyafonin.quicksheets.database.Model.TimesheetEntry;
 
-import static anthonyafonin.quicksheets.Fragments.Sheets.timesheetId;
-
-
+/**
+ * Updates an existing Account in the database.
+ */
 public class UpdateAccount extends AppCompatActivity {
 
+    // Declare variables and objects.
     private EditText txtFirst, txtMiddle, txtLast, txtPhone;
     DatabaseHelper db = new DatabaseHelper(this);
     Button btnUpdateAccount, btnDeleteAccount;
@@ -36,13 +43,17 @@ public class UpdateAccount extends AppCompatActivity {
     int accountId;
     String first, middle, last, phone, email;
 
+    /**
+     * The onCreate method of the activity.
+     * Puts the activity together.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.update_account);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         // Loads account id from shared pref
         accountId = AccountSharedPref.loadAccountId(context);
@@ -83,6 +94,9 @@ public class UpdateAccount extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            /**
+             * Closes activity.
+             */
             @Override
             public void onClick(View v) {
                 context.finish();
@@ -90,7 +104,9 @@ public class UpdateAccount extends AppCompatActivity {
         });
     }
 
-    // ActionListener for Register Button
+    /**
+     * ActionListener for Update Button
+     */
     public void updateAccount() {
         btnUpdateAccount.setOnClickListener(
                 new View.OnClickListener() {
@@ -138,7 +154,9 @@ public class UpdateAccount extends AppCompatActivity {
                 });
     }
 
-    // ActionListener for Register Button
+    /**
+     * ActionListener for Delete Button
+     */
     public void deleteAccount() {
         btnDeleteAccount.setOnClickListener(
                 new View.OnClickListener() {
