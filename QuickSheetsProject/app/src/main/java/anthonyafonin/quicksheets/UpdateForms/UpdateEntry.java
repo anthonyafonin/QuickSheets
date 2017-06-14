@@ -25,8 +25,8 @@ public class UpdateEntry extends AppCompatActivity {
     DatabaseHelper db = new DatabaseHelper(this);
     Button btnUpdateEntry;
     TimesheetEntry entry;
-    Context context = this;
-    int accountId, entryHours;
+    int accountId;
+    double entryHours, dblhours;
     String jobType, customer, description, dateText, hours;
 
     @Override
@@ -56,8 +56,8 @@ public class UpdateEntry extends AppCompatActivity {
         jobType = entry.getJobType();
         customer = entry.getCustomer();
         description = entry.getDescription();
-        entryHours = entry.getEntryHours();
-        hours = Integer.toString(entryHours);
+        dblhours = entry.getEntryHours();
+        hours = Double.toString(dblhours);
         dateText = entry.getEntryDate();
 
         // Displays values in editText fields and moves cursor to the right
@@ -111,7 +111,7 @@ public class UpdateEntry extends AppCompatActivity {
 
                                 //Breaks if invalid hours input type
                                 try {
-                                    entryHours = Integer.parseInt(txtHours.getText().toString());
+                                    dblhours = Double.parseDouble(txtHours.getText().toString());
                                 } catch(NumberFormatException nfe) {
                                     Toast.makeText(UpdateEntry.this,
                                             "Invalid 'Hours'",
@@ -124,7 +124,7 @@ public class UpdateEntry extends AppCompatActivity {
                                         txtJob.getText().toString(),
                                         txtCustomer.getText().toString(),
                                         txtDescription.getText().toString(),
-                                        entryHours,
+                                        dblhours,
                                         txtDate.getText().toString(),
                                         entryId);
 

@@ -116,12 +116,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_TABLE_TIME_SHEETS);
         db.execSQL(CREATE_TABLE_TS_ENTRY);
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + CREATE_TABLE_ACCOUNT);
         db.execSQL("CREATE TABLE IF NOT EXISTS " + CREATE_TABLE_TIME_SHEETS);
         db.execSQL("CREATE TABLE IF NOT EXISTS " + CREATE_TABLE_TS_ENTRY);
-
     }
 
     //--------------------------------------------------
@@ -420,7 +420,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             cursor.moveToFirst();
 
         TimesheetEntry entry = new TimesheetEntry(cursor.getString(0),
-                cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3)),
+                cursor.getString(1), cursor.getString(2), Double.parseDouble(cursor.getString(3)),
                 cursor.getString(4),Integer.parseInt(cursor.getString(5)));
 
         cursor.close();
@@ -447,7 +447,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 entry.setJobType(cursor.getString(1));
                 entry.setCustomer(cursor.getString(2));
                 entry.setDescription(cursor.getString(3));
-                entry.setEntryHours(Integer.parseInt(cursor.getString(4)));
+                entry.setEntryHours(Double.parseDouble(cursor.getString(4)));
                 entry.setEntryDate(cursor.getString(5));
 
                 //Add Account to list
@@ -468,6 +468,25 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         // return count
         return cursor.getCount();
     }
+
+    // Get Sheet Hours
+    public double getSheetHours(int sheetId){
+
+        double sum = 0;
+        int count;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT SUM(" + ENTRY_HOURS + ") FROM " + TABLE_TS_ENTRY
+                + " WHERE " + ENTRY_TIMESHEET_ID +  " = " + sheetId, null);
+
+        c.moveToFirst();
+        count = c.getCount();
+
+        if(count > 0) {
+            sum = c.getDouble(0);
+        }
+        return sum;
+    }
+
 
     // Update single Entry
     public int updateEntry(TimesheetEntry entry, int entryId){
@@ -494,21 +513,4 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.close();
     }
 
-    /* Work in progress, Join query
-    public void getJoinedEntrySheet(){
-        //Create new querybuilder
-        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        qb.setTables(TABLE_TIME_SHEET +
-                " LEFT OUTER JOIN " + TABLE_TS_ENTRY + " ON " +
-                TIMESHEET_ID + " = " + ENTRY_TIMESHEET_ID);
-
-        String orderBy = ENTRY_ID + " ASC";
-
-
-        Cursor cursor = qb.query(db, null, null, null, null, null, orderBy);
-        return result;
-    }
-    */
 }

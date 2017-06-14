@@ -27,7 +27,9 @@ tools:openDrawer="start">
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/qsGreen"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:menu="@menu/home"
+            android:icon="@android:drawable/ic_menu_sort_by_size"/>
 
     </android.support.design.widget.AppBarLayout>
 

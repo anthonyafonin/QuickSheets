@@ -50,6 +50,7 @@ public class HomeActivity extends AppCompatActivity
     TextView nameText, emailText, phoneText;
     Account acc;
     NavigationView nav;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class HomeActivity extends AppCompatActivity
         phoneText = (TextView) header.findViewById(R.id.lblPhone);
 
 
-
+        //menu.getItem(0).setIcon(R.drawable.ic_menu_sort_by_size);
 
 
         // Creates a fragment manager and shows sheets fragment
@@ -130,7 +131,9 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.home, menu);
+
         return true;
     }
 
@@ -140,11 +143,6 @@ public class HomeActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -156,16 +154,13 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
 
-
         if (id == R.id.nav_acc) {
             Intent i = new Intent(this, UpdateAccount.class);
             this.startActivity(i);
 
         } else if (id == R.id.nav_backup) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_logout){
+        }  else if (id == R.id.nav_logout){
 
             // Clears the Shared Preference
             AccountSharedPref.logoutUser(this);
@@ -185,6 +180,4 @@ public class HomeActivity extends AppCompatActivity
 
         return true;
     }
-
-
 }

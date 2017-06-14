@@ -2,6 +2,7 @@ package anthonyafonin.quicksheets.AddForms;
 
 
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -9,8 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
 
 import anthonyafonin.quicksheets.AccountSharedPref;
 import anthonyafonin.quicksheets.R;
@@ -27,8 +33,11 @@ public class AddEntryForm extends AppCompatActivity {
     Button btnSubmitEntry;
     TimesheetEntry entry;
     Context context = this;
-    int accountId, hours;
-
+    int accountId;
+    double dblhours;
+    private int mYear, mMonth, mDay;
+    String monthString;
+    ImageView calDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +60,8 @@ public class AddEntryForm extends AppCompatActivity {
         hoursText =  (EditText) findViewById(R.id.txtHours);
         dateText =  (EditText) findViewById(R.id.txtDate);
 
+        calDate = (ImageView)(findViewById(R.id.imgCalDate)) ;
+
         // Action listener for button submit
         createEntry();
 
@@ -63,6 +74,32 @@ public class AddEntryForm extends AppCompatActivity {
                 context.finish();
             }
         });
+
+        calDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get Current Date
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(context,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int month, int dayOfMonth) {
+
+                                monthString = new DateFormatSymbols().getMonths()[month];
+                                dateText.setText(monthString + " " + dayOfMonth);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
     }
 
     // ActionListener for Register Button
@@ -71,7 +108,6 @@ public class AddEntryForm extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
 
 
                         do{
@@ -91,7 +127,7 @@ public class AddEntryForm extends AppCompatActivity {
 
                                 //Breaks if invalid hours input type
                                 try {
-                                    hours = Integer.parseInt(hoursText.getText().toString());
+                                    dblhours = Double.parseDouble(hoursText.getText().toString());
                                 } catch(NumberFormatException nfe) {
                                     Toast.makeText(AddEntryForm.this,
                                             "Invalid 'Hours'",
@@ -104,7 +140,7 @@ public class AddEntryForm extends AppCompatActivity {
                                         jobType.getText().toString(),
                                         customer.getText().toString(),
                                         description.getText().toString(),
-                                        hours,
+                                        dblhours,
                                         dateText.getText().toString(),
                                         timesheetId);
 

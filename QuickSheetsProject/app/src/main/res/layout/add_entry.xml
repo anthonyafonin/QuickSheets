@@ -142,14 +142,23 @@
                     android:textSize="16sp"
                     android:layout_width="125dp" />
 
+
                 <EditText
                     android:id="@+id/txtDate"
                     android:layout_height="wrap_content"
-                    android:ems="5"
-                    android:layout_weight="0.25"
-                    android:layout_width="15dp"
-                    android:layout_marginRight="50dp"
-                    android:textSize="16sp" />
+                    android:ems="10"
+                    android:layout_marginRight="0dp"
+                    android:textSize="16sp"
+                    android:layout_width="149dp"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:enabled="false" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@android:drawable/ic_menu_today"
+                    android:id="@+id/imgCalDate" />
 
             </LinearLayout>
 

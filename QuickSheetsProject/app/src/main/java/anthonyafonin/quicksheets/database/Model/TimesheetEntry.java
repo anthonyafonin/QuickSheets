@@ -2,14 +2,15 @@ package anthonyafonin.quicksheets.database.Model;
 
 public class TimesheetEntry {
 
-    private int id, tsheetId, entryHours;
+    private int id, tsheetId;
+    private double entryHours;
     private String jobType, customer, description, entryDate;
 
     // Constructor
     public TimesheetEntry() {}
 
     public TimesheetEntry(String jobType, String customer,
-                          String description, int entryHours, String entryDate) {
+                          String description, double entryHours, String entryDate) {
         this.jobType = jobType;
         this.customer = customer;
         this.description = description;
@@ -18,7 +19,7 @@ public class TimesheetEntry {
     }
 
     public TimesheetEntry(String jobType, String customer,
-                          String description, int entryHours, String entryDate, int tsheetId) {
+                          String description, double entryHours, String entryDate, int tsheetId) {
         this.jobType = jobType;
         this.customer = customer;
         this.description = description;
@@ -28,7 +29,7 @@ public class TimesheetEntry {
     }
 
     public TimesheetEntry(int id, String jobType, String customer,
-                    String description, int entryHours, String entryDate, int tsheetId) {
+                    String description, double entryHours, String entryDate, int tsheetId) {
         this.id = id;
         this.jobType = jobType;
         this.customer = customer;
@@ -59,7 +60,7 @@ public class TimesheetEntry {
         this.description = description;
     }
 
-    public void setEntryHours(int entryHours){
+    public void setEntryHours(double entryHours){
         this.entryHours = entryHours;
     }
 
@@ -88,7 +89,7 @@ public class TimesheetEntry {
         return this.description;
     }
 
-    public int getEntryHours(){
+    public double getEntryHours(){
         return this.entryHours;
     }
 

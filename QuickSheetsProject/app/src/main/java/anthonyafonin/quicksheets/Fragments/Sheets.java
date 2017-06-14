@@ -1,24 +1,30 @@
 package anthonyafonin.quicksheets.Fragments;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
-import android.app.Fragment;
-
-
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 import anthonyafonin.quicksheets.AccountSharedPref;
 import anthonyafonin.quicksheets.AddForms.AddSheetForm;
@@ -36,14 +42,16 @@ public class Sheets extends Fragment {
     int accountId;
     public static int timesheetId;
     public static String timesheetTitle;
-    ListView listContent;
     Timesheet sheet;
+    ListView listContent;
+    ArrayList<Timesheet> sheets;
+    View rootView;
 
     @Override
     public View onCreateView(
             final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.frag_sheets, container, false);
+        rootView = inflater.inflate(R.layout.frag_sheets, container, false);
         db = new DatabaseHelper(getActivity());
         accountId = AccountSharedPref.loadAccountId(getActivity());
         ((HomeActivity) getActivity()).setActionBarTitle("QuickSheets");
@@ -58,8 +66,11 @@ public class Sheets extends Fragment {
             }
         });
 
+
+
+
         // Defines listview in layout and displays timesheets
-        listContent = (ListView)rootView.findViewById(R.id.sheetList);
+        listContent = (ListView) rootView.findViewById(R.id.sheetList);
 
         // Handles when an item is clicked
         listContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -103,16 +114,14 @@ public class Sheets extends Fragment {
     public void onStart() {
         super.onStart();
 
-        // Defines listview in layout and displays timesheets
-        ArrayAdapter adapter = new ArrayAdapter(
-                getActivity(), android.R.layout.simple_list_item_1,
-                db.getAllTimesheets(accountId));
-        listContent.setAdapter(adapter);
+        // Displays custom listView
+        sheets = (ArrayList<Timesheet>) db.getAllTimesheets(accountId);
+        SheetList customAdapter = new SheetList(getActivity(), R.layout.list_sheet, sheets);
+        listContent.setAdapter(customAdapter);
 
     }
 
-    public void createDialog()
-    {
+    public void createDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Select an option")
                 .setCancelable(true)
@@ -131,13 +140,12 @@ public class Sheets extends Fragment {
                                 .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
 
-                                        db.deleteTimesheet(sheet, sheet.getId());
+                                        db.deleteTimesheet(sheet, timesheetId);
 
-                                        // Refreshes the adapter listview
-                                        ArrayAdapter adapter = new ArrayAdapter(
-                                                getActivity(), android.R.layout.simple_list_item_1,
-                                                db.getAllTimesheets(accountId));
-                                        listContent.setAdapter(adapter);
+                                        // Displays custom listView
+                                        sheets = (ArrayList<Timesheet>) db.getAllTimesheets(accountId);
+                                        SheetList customAdapter = new SheetList(getActivity(), R.layout.list_sheet, sheets);
+                                        listContent.setAdapter(customAdapter);
                                     }
                                 });
                         AlertDialog alert = builder.create();
@@ -153,6 +161,7 @@ public class Sheets extends Fragment {
         AlertDialog alert = builder.create();
         alert.show();
     }
+
 }
 
 

@@ -50,9 +50,8 @@
 
                 <EditText
                     android:id="@+id/txtTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="149dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
                     android:ems="10"
                     android:layout_marginRight="50dp"
                     android:textSize="16sp" />
@@ -74,12 +73,20 @@
 
                 <EditText
                     android:id="@+id/txtStartDate"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginRight="0dp"
+                    android:layout_width="150dp"
+                    android:enabled="false"
+                    android:editable="false"
+                    android:focusable="false" />
+
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
+                    app:srcCompat="@android:drawable/ic_menu_today"
+                    android:id="@+id/imgCalStart" />
 
-                    android:layout_marginRight="50dp"
-                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -99,11 +106,20 @@
                 <EditText
                     android:id="@+id/txtEndDate"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
                     android:ems="10"
-                    android:layout_width="15dp"
-                    android:layout_marginRight="50dp"
-                    android:textSize="16sp" />
+                    android:layout_marginRight="0dp"
+                    android:textSize="16sp"
+                    android:layout_width="149dp"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:editable="false"
+                    android:enabled="false" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@android:drawable/ic_menu_today"
+                    android:id="@+id/imgCalEnd" />
             </LinearLayout>
 
             <Button

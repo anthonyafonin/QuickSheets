@@ -81,6 +81,15 @@ public class Register extends Activity {
                                     break;
                                 }
 
+                                // Checks if email address already exists
+                                if(db.checkAccount(emailText.getText().toString())){
+                                    Toast.makeText(Register.this,
+                                            "Email Already Exists",
+                                            Toast.LENGTH_LONG).show();
+                                    break;
+                                }
+
+
                                 // Create an Instance of an Account from user input
                                 acc = new Account(firstNameText.getText().toString(),
                                         middleNameText.getText().toString(),
@@ -91,14 +100,9 @@ public class Register extends Activity {
                                 // Attempt to insert data into SQLite database
                                 db.addAccount(acc);
 
-                                //Get Account Id
-                                int accountId = db.getAccountIdByEmail(emailText.getText().toString().trim());
-
-                                //Store the retrieved SQLite Account ID in a shared preference
-                                AccountSharedPref.saveId(Register.this, accountId);
 
                                 //Redirect to HomeActivity
-                                Intent intent = new Intent(v.getContext(), HomeActivity.class);
+                                Intent intent = new Intent(v.getContext(), LoginActivity.class);
                                 startActivity(intent);
 
                                 Toast.makeText(Register.this,

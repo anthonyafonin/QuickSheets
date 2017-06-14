@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="anthonyafonin.quicksheets">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+
 
     <application
         android:allowBackup="true"
@@ -9,16 +13,24 @@
         android:noHistory="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
         <activity
             android:name=".MainActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".LoginActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
@@ -35,7 +47,6 @@
             android:name=".AddForms.AddSheetForm"
             android:label="@string/prompt_new_sheet"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".AddForms.AddEntryForm"
             android:label="New Entry"
@@ -52,6 +63,11 @@
             android:name=".UpdateForms.UpdateEntry"
             android:label="Update Entry"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EntryDetails"
+            android:label="Entry Details"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

@@ -72,12 +72,19 @@
 
                 <EditText
                     android:id="@+id/txtStartUpdate"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginRight="0dp"
+                    android:layout_width="150dp"
+                    android:enabled="false"
+                    android:editable="false"
+                    android:focusable="false" />
+
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
-
-                    android:layout_marginRight="50dp"
-                    android:textSize="16sp" />
+                    app:srcCompat="@android:drawable/ic_menu_today"
+                    android:id="@+id/imgCalStartUpdate" />
             </LinearLayout>
 
             <LinearLayout
@@ -96,11 +103,18 @@
                 <EditText
                     android:id="@+id/txtEndUpdate"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
-                    android:ems="10"
-                    android:layout_width="15dp"
-                    android:layout_marginRight="50dp"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:layout_marginRight="0dp"
+                    android:layout_width="150dp"
+                    android:enabled="false"
+                    android:editable="false"
+                    android:focusable="false" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@android:drawable/ic_menu_today"
+                    android:id="@+id/imgCalEndUpdate" />
             </LinearLayout>
 
             <Button

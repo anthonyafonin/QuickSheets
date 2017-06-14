@@ -1,6 +1,7 @@
 package anthonyafonin.quicksheets.UpdateForms;
 
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 import anthonyafonin.quicksheets.AccountSharedPref;
@@ -20,12 +24,14 @@ import anthonyafonin.quicksheets.database.DatabaseHelper;
 import anthonyafonin.quicksheets.database.Model.Account;
 import anthonyafonin.quicksheets.database.Model.Timesheet;
 
+import static anthonyafonin.quicksheets.AddForms.AddSheetForm.thisYear;
 import static anthonyafonin.quicksheets.Fragments.Sheets.timesheetId;
 
 
 public class UpdateSheet extends AppCompatActivity {
 
     private EditText titleText, startDateText, endDateText, yearText;
+    private ImageView calStart, calEnd;
     DatabaseHelper db = new DatabaseHelper(this);
     Button btnSubmit, btnCancel;
     Account acc;
@@ -33,6 +39,8 @@ public class UpdateSheet extends AppCompatActivity {
     Context context = this;
     int accountId, year;
     String title, startDate, endDate;
+    private int mYear, mMonth, mDay;
+    String monthString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +54,8 @@ public class UpdateSheet extends AppCompatActivity {
 
         // Assigns buttons
         btnSubmit = (Button)(findViewById(R.id.btnUpdateSheet));
+        calStart = (ImageView)(findViewById(R.id.imgCalStartUpdate)) ;
+        calEnd = (ImageView)(findViewById(R.id.imgCalEndUpdate)) ;
 
         //Assign variables to text fields
         titleText = (EditText) findViewById(R.id.txtTitleUpdate);
@@ -62,14 +72,65 @@ public class UpdateSheet extends AppCompatActivity {
         titleText.setText(title);
         titleText.setSelection(titleText.getText().length());
         startDateText.setText(startDate);
-        startDateText.setSelection(startDateText.getText().length());
+        //startDateText.setSelection(startDateText.getText().length());
         endDateText.setText(endDate);
-        endDateText.setSelection(endDateText.getText().length());
-
-        year =  Calendar.getInstance().get(Calendar.YEAR);
+        //endDateText.setSelection(endDateText.getText().length());
+        year = thisYear;
 
         // Action listener for button save
         updateSheet();
+
+        calStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get Current Date
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(context,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int month, int dayOfMonth) {
+
+                                monthString = new DateFormatSymbols().getMonths()[month];
+                                startDateText.setText(monthString + " " + dayOfMonth);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
+
+        calEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get Current Date
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(context,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int month, int dayOfMonth) {
+
+                                monthString = new DateFormatSymbols().getMonths()[month];
+                                endDateText.setText(monthString + " " + dayOfMonth);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -109,7 +170,7 @@ public class UpdateSheet extends AppCompatActivity {
                                         titleText.getText().toString(),
                                         startDateText.getText().toString(),
                                         endDateText.getText().toString(),
-                                        year, accountId);
+                                        mYear, accountId);
 
                                 // Attempt to insert data into SQLite database
                                 db.updateTimesheet(sheet, timesheetId);
